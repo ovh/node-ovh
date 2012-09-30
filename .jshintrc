@@ -62,7 +62,7 @@
     "lastsemic"     : false,    // Tolerat missing semicolons when the it is omitted for the last statement in a one-line block.
     "laxbreak"      : false,    // Tolerate unsafe line breaks e.g. `return [\n] x` without semicolons.
     "laxcomma"      : false,    // Suppress warnings about comma-first coding style.
-    "loopfunc"      : true,     // Allow functions to be defined within loops.
+    "loopfunc"      : false,    // Allow functions to be defined within loops.
     "multistr"      : false,    // Tolerate multi-line strings.
     "onecase"       : false,    // Tolerate switches with just one case.
     "proto"         : false,    // Tolerate __proto__ property. This property is deprecated.
