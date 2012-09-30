@@ -1,6 +1,8 @@
 node-ovh
 ========
 
+[![Build Status](https://secure.travis-ci.org/gierschv/node-ovh.png)](http://travis-ci.org/gierschv/node-ovh)
+
 node-ovh is a Node.js helper library for OVH web services. The module usage is similar to the frontend lib OVHWS-Wrapper.
 
 Installation
