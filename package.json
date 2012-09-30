@@ -1,0 +1,32 @@
+{
+    "name": "ovh",
+    "version": "0.1.0",
+    "description": "An helper library to use OVH web services",
+    "homepage": "https://github.com/gierschv/node-ovh",
+    "author": "Vincent Giersch <mail@vincent.sh>",
+    "contributors": [],
+    "keywords": [
+        "ovh"
+    ],
+    "main": "./ovh.js",
+    "engines": {
+        "node": "*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/gierschv/node-ovh.git"
+    },
+    "bugs": {
+        "url": "https://github.com/gierschv/node-ovh/issues"
+    },
+    "devDependencies" : {
+        "jshint"    : "latest",
+        "nodeunit"  : "latest"
+    },
+    "scripts": {
+        "test": "make all"
+    },
+    "dependencies" : {
+        "node-proxy": "0.6.0"
+    }
+}
