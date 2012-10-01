@@ -8,26 +8,30 @@ node-ovh is a Node.js helper library for OVH web services. The module usage is s
 Installation
 ------------
 
-    npm install ovh
+```javascript
+$ npm install ovh
+```
 
 Example
 --------
 
-    var ovh = require('ovh');
+```javascript
+var ovh = require('ovh');
 
-    // Instance a new OVH WS with used WS. Keys must be the WS prefixes
-    var Ows = ovh({
-        sessionHandler: 'sessionHandler/r4',
-        cloudInstance:  'cloud/public/instance/r3'
-    });
+// Instance a new OVH WS with used WS. Keys must be the WS prefixes
+var Ows = ovh({
+    sessionHandler: 'sessionHandler/r4',
+    cloudInstance:  'cloud/public/instance/r3'
+});
 
-    // Example of a WS Call (https://ws.ovh.com/sessionHandler/r4/documentation.html)
-    Ows.sessionHandler.getAnonymousSession.call({
-        language : 'fr',
-        secured : false
-    }, function (success, reponse) {
-        console.log(!success || reponse.session.id);
-    });
+// Example of a WS Call (https://ws.ovh.com/sessionHandler/r4/documentation.html)
+Ows.sessionHandler.getAnonymousSession.call({
+    language : 'fr',
+    secured : false
+}, function (success, reponse) {
+    console.log(!success || reponse.session.id);
+});
+```
 
 Changelog
 ---------
