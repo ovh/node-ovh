@@ -69,17 +69,19 @@ var https = require('https'),
         });
 
         res.on('end', function () {
-          try {
-            var response = JSON.parse(body);
+          var response;
 
-            if (response.error) {
-              callback(false, response.error);
-            }
-            else {
-              callback(true, response.answer);
-            }
+          try {
+            response = JSON.parse(body);
           } catch (e) {
             callback(false, 'Unable to parse JSON reponse');
+          }
+
+          if (response.error) {
+            callback(false, response.error);
+          }
+          else {
+            callback(true, response.answer);
           }
         });
       }

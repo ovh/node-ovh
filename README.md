@@ -28,13 +28,17 @@ var Ows = ovh({
 Ows.sessionHandler.getAnonymousSession.call({
     language : 'fr',
     secured : false
-}, function (success, reponse) {
-    console.log(!success || reponse.session.id);
+}, function (success, response) {
+    console.log(!success || response.session.id);
 });
 ```
 
 Changelog
 ---------
+
+### 0.1.1
+
+Fix bad exception catch
 
 ### 0.1.0
 
