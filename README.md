@@ -5,6 +5,7 @@ node-ovh
 
 node-ovh is a Node.js helper library for OVH web services. The module usage is similar to the frontend lib OVHWS-Wrapper.
 This module uses Node.js harmony proxies, so you have to use the --harmony-proxies flag while running node.
+
 **This library is unofficial and consequently not maintained by OVH.**
 
 Installation
@@ -40,17 +41,17 @@ Changelog
 
 ### 0.2.0
 
-Using native harmony-proxies Node.js implementation with --harmony-proxies flag
-Moving from nodeunit to mocha
-Node.js v0.4 and v0.6 are not supported anymore
+* Using native harmony-proxies Node.js implementation with --harmony-proxies flag
+* Moving from nodeunit to mocha
+* Node.js v0.4 and v0.6 are not supported anymore
 
 ### 0.1.1
 
-Fix bad exception catch
+* Fix bad exception catch
 
 ### 0.1.0
 
-Initial release
+* Initial release
 
 License
 -------
