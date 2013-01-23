@@ -1,14 +1,15 @@
 //
-// nodeunit tests for node-ovh
+// tests for node-ovh
 //
 
-var ovh = require('../../node-ovh/ovh.js');
+var ovh = require('..'),
+    assert = require('assert');
 
 exports.checkWS = {
-  'checkWS': function (test) {
+  'checkWS': function (done) {
     "use strict";
 
-    test.expect(3);
+    // test.expect(3);
 
     var remaining = 3;
     var Ows = ovh({
@@ -18,39 +19,35 @@ exports.checkWS = {
     });
 
     Ows.checkWS(function (wsPrefix, success, errorMsg) {
-      test.ok(success, 'Test WS ' + wsPrefix);
+      assert.ok(success, 'Test WS ' + wsPrefix);
 
       if (--remaining === 0) {
-        test.done();
+        done();
       }
     });
   },
-  'checkWSNonExistant': function (test) {
+  'checkWSNonExistant': function (done) {
     "use strict";
-
-    test.expect(1);
 
     var Ows = ovh({
       nonExistant:    'foo/bar/r0'
     });
 
     Ows.checkWS(function (wsPrefix, success, errorMsg) {
-      test.ok(!success, 'Test WS ' + wsPrefix);
-      test.done();
+      assert.ok(!success, 'Test WS ' + wsPrefix);
+      done();
     });
   },
-  'checkWSBadPrefix': function (test) {
+  'checkWSBadPrefix': function (done) {
     "use strict";
-
-    test.expect(1);
 
     var Ows = ovh({
       adsl:           'xdsl/trunk'
     });
 
     Ows.checkWS(function (wsPrefix, success, errorMsg) {
-      test.ok(!success, 'Test WS ' + wsPrefix);
-      test.done();
+      assert.ok(!success, 'Test WS ' + wsPrefix);
+      done();
     });
   }
 };

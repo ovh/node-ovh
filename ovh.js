@@ -7,8 +7,11 @@
 
 var https = require('https'),
     querystring = require('querystring'),
-    proxy = require('node-proxy'),
     handlerMaker = require("./handler-maker");
+
+if (typeof(Proxy) === 'undefined') {
+  console.error("Please run node with --harmony-proxies flag");
+}
 
 (function () {
   "use strict";
@@ -43,10 +46,10 @@ var https = require('https'),
         };
       };
 
-      return proxy.create(handler);
+      return new Proxy.create(handler);
     };
 
-    return proxy.create(handler);
+    return new Proxy.create(handler);
   }
 
   // Call a ws method

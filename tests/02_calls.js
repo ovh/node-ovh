@@ -1,14 +1,13 @@
 //
-// nodeunit tests for node-ovh
+// tests for node-ovh
 //
 
-var ovh = require('../../node-ovh/ovh.js');
+var ovh = require('..'),
+    assert = require('assert');
 
 exports.calls = {
-  'getAnonymousSession': function (test) {
+  'getAnonymousSession': function (done) {
     "use strict";
-
-    test.expect(1);
 
     var Ows = ovh({
       sessionHandler: 'sessionHandler/r4',
@@ -19,8 +18,8 @@ exports.calls = {
       language : 'fr',
       secured : false
     }, function (success, reponse) {
-      test.ok(success && reponse.session.id.match('^classic/anonymous-'), 'Except an anonymous session');
-      test.done();
+      assert.ok(success && reponse.session.id.match('^classic/anonymous-'), 'Except an anonymous session');
+      done();
     });
   }
 };
