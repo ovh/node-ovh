@@ -4,6 +4,7 @@ node-ovh
 [![Build Status](https://secure.travis-ci.org/gierschv/node-ovh.png)](http://travis-ci.org/gierschv/node-ovh)
 
 node-ovh is a Node.js helper library for OVH web services. The module usage is similar to the frontend lib OVHWS-Wrapper.
+This module uses Node.js harmony proxies, so you have to use the --harmony-proxies flag while running node.
 **This library is unofficial and consequently not maintained by OVH.**
 
 Installation
@@ -37,6 +38,12 @@ Ows.sessionHandler.getAnonymousSession.call({
 Changelog
 ---------
 
+### 0.2.0
+
+Using native harmony-proxies Node.js implementation with --harmony-proxies flag
+Moving from nodeunit to mocha
+Node.js v0.4 and v0.6 are not supported anymore
+
 ### 0.1.1
 
 Fix bad exception catch
@@ -50,6 +57,7 @@ License
 
 node-ovh is freely distributable under the terms of the MIT license.
 
+```
 Copyright (c) 2012 Vincent Giersch
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
@@ -58,4 +66,4 @@ copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the 
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.```
