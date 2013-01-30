@@ -1,7 +1,7 @@
 {
     "name": "ovh",
-    "version": "0.2.0",
-    "description": "An helper library to use OVH web services",
+    "version": "0.3.0",
+    "description": "An helper library to use OVH web services and REST APIs",
     "homepage": "https://github.com/gierschv/node-ovh",
     "author": "Vincent Giersch <mail@vincent.sh>",
     "contributors": [],
@@ -24,6 +24,6 @@
         "mocha"     : "latest"
     },
     "scripts": {
-        "test": "make all"
+        "test": "make no_auth_test"
     }
 }

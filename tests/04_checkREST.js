@@ -5,17 +5,15 @@
 var ovh = require('..'),
     assert = require('assert');
 
-exports.checkWS = {
-  'checkWS': function (done) {
+exports.checkREST = {
+  'checkREST': function (done) {
     "use strict";
 
-    var remaining = 4;
+    var remaining = 2;
     var Ows = ovh({
-      sessionHandlerEU: { type: 'WS', path: 'sessionHandler/r4' },
-      sessionHandlerCA: { type: 'WS', path: 'sessionHandler/r4', host: 'ws.ovh.ca' },
-      cloudInstance:  'cloud/public/instance/r3',
-      xdsl:           'xdsl/trunk'
-    });
+      auth: { type: 'REST', path: '/auth' },
+      vps:  { type: 'REST', path: '/vps' }
+    }, { appKey: 'X', appSecret: 'Y' });
 
     Ows.checkWS(function (wsPrefix, success, errorMsg) {
       assert.ok(success, 'Test WS ' + wsPrefix);
@@ -25,12 +23,12 @@ exports.checkWS = {
       }
     });
   },
-  'checkWSNonExistant': function (done) {
+  'CheckRESTNonExistant': function (done) {
     "use strict";
 
     var Ows = ovh({
-      nonExistant:    'foo/bar/r0'
-    });
+      telephony:  { type: 'REST', path: '/telephony' }
+    }, { appKey: 'X', appSecret: 'Y' });
 
     Ows.checkWS(function (wsPrefix, success, errorMsg) {
       assert.ok(!success, 'Test WS ' + wsPrefix);
