@@ -10,7 +10,7 @@
     ],
     "main": "./ovh.js",
     "engines": {
-        "node": "0.8.x"
+        "node": ">= 0.8.0 <= 0.9.18" 
     },
     "repository": {
         "type": "git",

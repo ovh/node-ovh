@@ -137,14 +137,14 @@ if (typeof(Proxy) === 'undefined') {
           };
         };
 
-        return new Proxy.create(handler);
+        return Proxy.create(handler);
       }
       else {
         return _this.proxyREST(target, name);
       }
     };
 
-    return new Proxy.create(handler);
+    return Proxy.create(handler);
   };
 
   OVHWS.prototype.proxyREST = function (target, name, reuseHandler) {
