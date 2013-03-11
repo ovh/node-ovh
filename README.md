@@ -149,6 +149,14 @@ More examples in *test* folder.
 Changelog
 ---------
 
+### 0.3.2
+
+* Tested with node v0.10
+
+### 0.3.1
+
+* Fix for node v0.9.8
+
 ### 0.3.0
 
 * Major update, first version supporting OVH REST API (https://api.ovh.com).

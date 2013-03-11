@@ -1,6 +1,6 @@
 {
     "name": "ovh",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "An helper library to use OVH web services and REST APIs",
     "homepage": "https://github.com/gierschv/node-ovh",
     "author": "Vincent Giersch <mail@vincent.sh>",
@@ -10,7 +10,7 @@
     ],
     "main": "./ovh.js",
     "engines": {
-        "node": ">= 0.8.0 <= 0.9.18" 
+        "node": ">= 0.8.0 <= 0.10" 
     },
     "repository": {
         "type": "git",
