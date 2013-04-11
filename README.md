@@ -12,7 +12,7 @@ This module uses Node.js harmony proxies, so you have to use the `--harmony-prox
 Installation
 ------------
 
-```javascript
+```bash
 $ npm install ovh
 ```
 
@@ -81,7 +81,7 @@ $ node --harmony-proxies credential.js
 ```
 
 To allow your application to use your account, you just need to go to the `validationUrl` and to authorize the application.
-After that, you will be able to use this `credentialToken` and `consumerKey`. For more information, read the examples below.
+After that, you will be able to use this `consumerKey`. For more information, read the examples below.
 
 #### Usage
 You can call the REST API using differents ways. The first is similar to the WS usage:
@@ -93,7 +93,7 @@ var ovh = require('ovh');
 var rest = ovh({
   vps:  { type: 'REST', path: '/vps' }
 }, {
-  appKey: 'X', appSecret: 'Y', consumerKey: 'B', credentialToken: 'A'
+  appKey: 'X', appSecret: 'Y', consumerKey: 'B'
 });
 
 // Requesting "GET /vps"
@@ -122,7 +122,7 @@ var ovh = require('ovh');
 var rest = ovh({
   vps:  { type: 'REST', path: '/vps' }
 }, {
-  appKey: 'X', appSecret: 'Y', consumerKey: 'B', credentialToken: 'A'
+  appKey: 'X', appSecret: 'Y', consumerKey: 'B'
 });
 
 // Requesting "GET /vps"
@@ -149,13 +149,17 @@ More examples in *test* folder.
 Changelog
 ---------
 
+### 0.3.3
+
+* Fixes requests signature.
+
 ### 0.3.2
 
-* Tested with node v0.10
+* Tested with node v0.10.
 
 ### 0.3.1
 
-* Fix for node v0.9.8
+* Fix for node v0.9.8.
 
 ### 0.3.0
 

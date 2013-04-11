@@ -21,8 +21,7 @@ if (typeof(Proxy) === 'undefined') {
 
   function OVHWS(wsList, apiKeys) {
     this.apiKeys = { appKey: apiKeys.appKey, appSecret: apiKeys.appSecret,
-                     consumerKey: apiKeys.consumerKey || null,
-                     credentialToken: apiKeys.credentialToken || null };
+                     consumerKey: apiKeys.consumerKey || null };
     this.wsList = {};
     this.wsMetas = {};
 
@@ -261,16 +260,14 @@ if (typeof(Proxy) === 'undefined') {
     }
   };
 
-  OVHWS.prototype.setClientCredentials = function (consumerKey, credentialToken) {
-    this.credentialToken = credentialToken;
+  OVHWS.prototype.setClientCredentials = function (consumerKey) {
     this.consumerKey = consumerKey;
   };
 
   // Call REST API
   OVHWS.prototype.callREST = function (apiName, httpMethod, path, params, callback, refer) {
-    if (apiName !== 'auth' && (typeof(this.apiKeys.credentialToken) !== 'string' ||
-                               typeof(this.apiKeys.consumerKey) !== 'string')) {
-      throw new Error('OVH API: No consumerKey / credentialToken defined.');
+    if (apiName !== 'auth' && typeof(this.apiKeys.consumerKey) !== 'string') {
+      throw new Error('OVH API: No consumerKey defined.');
     }
 
     // Replace "{str}", used for $call()
@@ -366,7 +363,8 @@ if (typeof(Proxy) === 'undefined') {
   // Sign a REST request
   OVHWS.prototype.signREST = function (httpMethod, url, params, timestamp) {
     var s = [
-      this.apiKeys.credentialToken,
+      this.apiKeys.appSecret,
+      this.apiKeys.consumerKey,
       httpMethod,
       url,
       typeof(params) === 'object' && Object.keys(params).length > 0 ? JSON.stringify(params) : '',
