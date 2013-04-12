@@ -149,6 +149,10 @@ More examples in *test* folder.
 Changelog
 ---------
 
+### 0.3.4
+
+* Add timeout option for REST API.
+
 ### 0.3.3
 
 * Fixes requests signature.

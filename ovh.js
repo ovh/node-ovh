@@ -19,11 +19,12 @@ if (typeof(Proxy) === 'undefined') {
 (function () {
   "use strict";
 
-  function OVHWS(wsList, apiKeys) {
+  function OVHWS(wsList, apiKeys, options) {
     this.apiKeys = { appKey: apiKeys.appKey, appSecret: apiKeys.appSecret,
                      consumerKey: apiKeys.consumerKey || null };
     this.wsList = {};
     this.wsMetas = {};
+    this.options = options;
 
     // Check and add implicit params in wsList
     for (var apiName in wsList) {
@@ -353,6 +354,15 @@ if (typeof(Proxy) === 'undefined') {
       callback(false, e.errno);
     });
 
+    if (typeof(this.options.timeout) === 'number') {
+      req.on('socket', function (socket) {
+          socket.setTimeout(_this.options.timeout);
+          socket.on('timeout', function() {
+              req.abort();
+          });
+      });
+    }
+
     if (typeof(params) === 'object' && Object.keys(params).length > 0) {
       req.write(JSON.stringify(params));
     }
@@ -473,8 +483,8 @@ if (typeof(Proxy) === 'undefined') {
     }
   };
 
-  module.exports = function (wsList, apiKeys) {
-    return new OVHWS(wsList, apiKeys || {});
+  module.exports = function (wsList, apiKeys, options) {
+    return new OVHWS(wsList, apiKeys || {}, options || {});
   };
 
 }).call(this);
