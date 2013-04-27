@@ -47,8 +47,8 @@ exports.REST_domains = {
     "use strict";
 
     var rest = ovh({ domains: { type: 'REST', path: '/domains' } }, apiKeys);
-    rest.domains.call('GET', '/domains/{domain}/resolutions', { domain: auth.domainServiceName }, function (success, ips) {
-      assert.ok(success && ips.length > 0);
+    rest.domains.call('GET', '/domains/{domain}/resolutions', { domain: auth.domainServiceName }, function (success, resolutions) {
+      assert.ok(success && resolutions.length > 0);
       done();
     });
   },
@@ -56,8 +56,8 @@ exports.REST_domains = {
     "use strict";
 
     var rest = ovh({ domains: { type: 'REST', path: '/domains' } }, apiKeys);
-    rest.domains[auth.domainServiceName].resolutions.$get(function (success, ips) {
-      assert.ok(success && ips.length > 0);
+    rest.domains[auth.domainServiceName].resolutions.$get(function (success, resolutions) {
+      assert.ok(success && resolutions.length > 0);
       done();
     });
   },
@@ -134,5 +134,15 @@ exports.REST_domains = {
         done();
       });
     });
-  }
+  },
+  '[AUTH_TEST_DOMAIN] GET /domains/{domain}/resolutions - [object].$get() - Test with query string': function (done) {
+    "use strict";
+
+    var rest = ovh({ domains: { type: 'REST', path: '/domains' } }, apiKeys);
+    rest.domains[auth.domainServiceName].resolutions.$get({ 'subDomain': 'www', 'fieldType': 'CNAME' }, function (success, resolutions) {
+      assert.ok(success);
+      assert.equal(resolutions.length, 1);
+      done();
+    });
+  },
 };

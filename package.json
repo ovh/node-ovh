@@ -1,6 +1,6 @@
 {
     "name": "ovh",
-    "version": "0.3.5",
+    "version": "0.3.6",
     "description": "An helper library to use OVH web services and REST APIs",
     "homepage": "https://github.com/gierschv/node-ovh",
     "author": "Vincent Giersch <mail@vincent.sh>",

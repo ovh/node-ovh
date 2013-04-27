@@ -309,7 +309,12 @@ if (typeof(Proxy) === 'undefined') {
     }
 
     if (typeof(params) === 'object' && Object.keys(params).length > 0) {
-      options.headers['Content-Length'] = JSON.stringify(params).length; // Enjoy 500 on chunked requests...
+      if (httpMethod === 'PUT' || httpMethod === 'POST') {
+        options.headers['Content-Length'] = JSON.stringify(params).length;
+      }
+      else {
+        options.path += '?' + querystring.stringify(params);
+      }
     }
 
     // Sign request
@@ -363,10 +368,10 @@ if (typeof(Proxy) === 'undefined') {
 
     if (typeof(this.options.timeout) === 'number') {
       req.on('socket', function (socket) {
-          socket.setTimeout(_this.options.timeout);
-          socket.on('timeout', function() {
-              req.abort();
-          });
+        socket.setTimeout(_this.options.timeout);
+        socket.on('timeout', function () {
+          req.abort();
+        });
       });
     }
 
@@ -384,7 +389,9 @@ if (typeof(Proxy) === 'undefined') {
       this.apiKeys.consumerKey,
       httpMethod,
       url,
-      typeof(params) === 'object' && Object.keys(params).length > 0 ? JSON.stringify(params) : '',
+      (httpMethod === 'PUT' || httpMethod === 'POST') &&
+        typeof(params) === 'object' &&
+        Object.keys(params).length > 0 ? JSON.stringify(params) : '',
       timestamp
     ];
 
