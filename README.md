@@ -149,6 +149,11 @@ More examples in *test* folder.
 Changelog
 ---------
 
+### 0.3.5
+
+* Ignore undefined parameters in REST API.
+* Move VPS tests, add /domains tests.
+
 ### 0.3.4
 
 * Add timeout option for REST API.

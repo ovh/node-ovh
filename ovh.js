@@ -301,6 +301,13 @@ if (typeof(Proxy) === 'undefined') {
       'X-Ovh-Application': this.apiKeys.appKey,
     };
 
+    // Remove undefined values
+    for (var k in params) {
+      if (params.hasOwnProperty(k) && typeof(params[k]) === 'undefined') {
+        delete params[k];
+      }
+    }
+
     if (typeof(params) === 'object' && Object.keys(params).length > 0) {
       options.headers['Content-Length'] = JSON.stringify(params).length; // Enjoy 500 on chunked requests...
     }
