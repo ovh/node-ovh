@@ -5,7 +5,7 @@
 var ovh = require('..'),
     assert = require('assert');
 
-exports.callWS = {
+exports.WS_call = {
   'getAnonymousSession': function (done) {
     "use strict";
 

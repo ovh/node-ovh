@@ -16,93 +16,16 @@ try {
   var apiKeys = {
     appKey: APP_KEY,
     appSecret: APP_SECRET,
-    consumerKey: auth.consumerKey,
-    credentialToken: auth.credentialToken
+    consumerKey: auth.consumerKey
   };
 } catch (err) {
   console.warn('The tests require ./auth to contain a JSON string with');
-  console.warn('`consumerKey`, `credentialToken`, and `vpsServiceName`.');
-  console.warn('Some tests (with AUTH_TEST mention) will be ignored.');
+  console.warn('`consumerKey`, and `vpsServiceName`.');
+  console.warn('Some tests (with AUTH_TEST_VPS mention) will be ignored.');
 }
 
-exports.callREST = {
-  'GET /auth/time - auth.call()': function (done) {
-    "use strict";
-
-    var rest = ovh({
-      auth: { type: 'REST', path: '/auth' }
-    }, {
-      appKey: APP_KEY,
-      appSecret: APP_SECRET
-    });
-
-    rest.auth.call('GET', '/auth/time', {}, function (success, result) {
-      assert.ok(success && typeof(result) === 'number');
-      done();
-    });
-  },
-  'GET /auth/time - [object].$get()': function (done) {
-    "use strict";
-
-    var rest = ovh({
-      auth: { type: 'REST', path: '/auth' }
-    }, {
-      appKey: APP_KEY,
-      appSecret: APP_SECRET
-    });
-
-    rest.auth.time.$get(function (success, result) {
-      assert.ok(success && typeof(result) === 'number');
-      done();
-    });
-  },
-  'GET /auth/credential - auth.call()': function (done) {
-    "use strict";
-
-    var rest = ovh({
-      auth: { type: 'REST', path: '/auth' }
-    }, {
-      appKey: APP_KEY,
-      appSecret: APP_SECRET
-    });
-
-    rest.auth.call('POST', '/auth/credential', {
-      'accessRules': [
-        { 'method': 'GET', 'path': '/*'},
-        { 'method': 'POST', 'path': '/*'},
-        { 'method': 'PUT', 'path': '/*'},
-        { 'method': 'DELETE', 'path': '/*'}
-      ],
-      'redirection': 'https://npmjs.org/package/ovh'
-    }, function (success, credential) {
-      assert.ok(success && credential.state === 'pendingValidation');
-      done();
-    });
-  },
-  'GET /auth/credential - [object].$post()': function (done) {
-    "use strict";
-
-    var rest = ovh({
-      auth: { type: 'REST', path: '/auth' }
-    }, {
-      appKey: APP_KEY,
-      appSecret: APP_SECRET
-    });
-
-    rest.auth.credential.$post({
-      'accessRules': [
-        { 'method': 'GET', 'path': '/*'},
-        { 'method': 'POST', 'path': '/*'},
-        { 'method': 'PUT', 'path': '/*'},
-        { 'method': 'DELETE', 'path': '/*'}
-      ],
-      'redirection': 'https://npmjs.org/package/ovh'
-    }, function (success, credential) {
-      assert.ok(success && credential.state === 'pendingValidation');
-      done();
-    });
-  },
-  '[AUTH_TEST] GET /vps - vps.call()': function (done) {
+exports.REST_vps = {
+  '[AUTH_TEST_VPS] GET /vps - vps.call()': function (done) {
     "use strict";
 
     var rest = ovh({ vps: { type: 'REST', path: '/vps' } }, apiKeys);
@@ -111,7 +34,7 @@ exports.callREST = {
       done();
     });
   },
-  '[AUTH_TEST] GET /vps - [object].$get()': function (done) {
+  '[AUTH_TEST_VPS] GET /vps - [object].$get()': function (done) {
     "use strict";
 
     var rest = ovh({ vps: { type: 'REST', path: '/vps' } }, apiKeys);
@@ -120,17 +43,17 @@ exports.callREST = {
       done();
     });
   },
-  '[AUTH_TEST] GET /vps/{domain}/ip - vps.call()': function (done) {
+  '[AUTH_TEST_VPS] GET /vps/{serviceName}/ip - vps.call()': function (done) {
     "use strict";
 
     var rest = ovh({ vps: { type: 'REST', path: '/vps' } }, apiKeys);
-    rest.vps.call('GET', '/vps/{domain}/ips', { domain: auth.vpsServiceName }, function (success, ips) {
+    rest.vps.call('GET', '/vps/{serviceName}/ips', { serviceName: auth.vpsServiceName }, function (success, ips) {
       // At least one ipv4 and one ipv6
       assert.ok(success && ips.length >= 2);
       done();
     });
   },
-  '[AUTH_TEST] GET /vps/{domain}/ip - [object].$get()': function (done) {
+  '[AUTH_TEST_VPS] GET /vps/{serviceName}/ip - [object].$get()': function (done) {
     "use strict";
 
     var rest = ovh({ vps: { type: 'REST', path: '/vps' } }, apiKeys);
@@ -140,11 +63,11 @@ exports.callREST = {
       done();
     });
   },
-  '[AUTH_TEST] GET & POST /vps/{domain}/ip/{ipAddress} - vps.call()': function (done) {
+  '[AUTH_TEST_VPS] GET & POST /vps/{serviceName}/ip/{ipAddress} - vps.call()': function (done) {
     var rest = ovh({ vps: { type: 'REST', path: '/vps' } }, apiKeys);
 
     var params;
-    rest.vps.call('GET', '/vps/{domain}/ips', { domain: auth.vpsServiceName }, function (success, result) {
+    rest.vps.call('GET', '/vps/{serviceName}/ips', { serviceName: auth.vpsServiceName }, function (success, result) {
       if (!success) {
         assert.ok(success);
         return done();
@@ -157,16 +80,16 @@ exports.callREST = {
           remaining++;
 
           // Fetch informations about IP
-          params = { domain: auth.vpsServiceName, ipAddress: result[i] };
-          rest.vps.call('GET', '/vps/{domain}/ips/{ipAddress}', params, function (success, ip) {
+          params = { serviceName: auth.vpsServiceName, ipAddress: result[i] };
+          rest.vps.call('GET', '/vps/{serviceName}/ips/{ipAddress}', params, function (success, ip) {
               if (!success) {
                 assert.ok(success);
                 return done();
               }
 
               // Try to set reverse
-              params = { domain: auth.vpsServiceName, ipAddress: ip.ipAddress, reverse: ip.reverse };
-              rest.vps.call('PUT', '/vps/{domain}/ips/{ipAddress}', params, function (success, result) {
+              params = { serviceName: auth.vpsServiceName, ipAddress: ip.ipAddress, reverse: ip.reverse };
+              rest.vps.call('PUT', '/vps/{serviceName}/ips/{ipAddress}', params, function (success, result) {
                 assert.ok(success);
 
                 if (--remaining === 0) {
@@ -178,7 +101,7 @@ exports.callREST = {
       }  
     });
   },
-  '[AUTH_TEST] GET & POST /vps/{domain}/ip/{ipAddress} - [object].$get() / [object].$post()': function (done) {
+  '[AUTH_TEST_VPS] GET & POST /vps/{serviceName}/ip/{ipAddress} - [object].$get() / [object].$post()': function (done) {
     var rest = ovh({ vps: { type: 'REST', path: '/vps' } }, apiKeys);
 
     var params;
@@ -213,7 +136,7 @@ exports.callREST = {
       }
     });
   },
-  '[AUTH_TEST] GET /vps/{domain} AND GET /vps/{domain}/ips - [object].$get() - Keep current path when using this?': function (done) {
+  '[AUTH_TEST_VPS] GET /vps/{serviceName} AND GET /vps/{serviceName}/ips - [object].$get() - Keep current path when using this?': function (done) {
     var rest = ovh({ vps: { type: 'REST', path: '/vps' } }, apiKeys);
 
     rest.vps[auth.vpsServiceName].$get(function(success, vps) {
@@ -229,4 +152,3 @@ exports.callREST = {
     });
   }
 };
-

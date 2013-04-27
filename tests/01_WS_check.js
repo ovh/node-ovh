@@ -5,7 +5,7 @@
 var ovh = require('..'),
     assert = require('assert');
 
-exports.checkWS = {
+exports.WS_check = {
   'checkWS': function (done) {
     "use strict";
 

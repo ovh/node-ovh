@@ -5,7 +5,7 @@
 var ovh = require('..'),
     assert = require('assert');
 
-exports.constructREST = {
+exports.REST_construct = {
   'Constructor mix with WS and REST API': function () {
     "use strict";
 

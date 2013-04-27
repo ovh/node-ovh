@@ -5,7 +5,7 @@
 var ovh = require('..'),
     assert = require('assert');
 
-exports.checkREST = {
+exports.REST_check = {
   'checkREST': function (done) {
     "use strict";
 
