@@ -268,7 +268,7 @@ if (typeof(Proxy) === 'undefined') {
   // Call REST API
   OVHWS.prototype.callREST = function (apiName, httpMethod, path, params, callback, refer) {
     if (apiName !== 'auth' && typeof(this.apiKeys.consumerKey) !== 'string') {
-      throw new Error('OVH API: No consumerKey defined.');
+      return callback(false, 'OVH API: No consumerKey defined.');
     }
 
     // Replace "{str}", used for $call()

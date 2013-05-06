@@ -78,5 +78,15 @@ exports.REST_construct = {
     assert.equal(wsList.vps_3.host, 'api.ovh.ca');
     assert.equal(wsList.vps_3.basePath, '/0.42');
   },
+  'Call method without CK': function (done) {
+    "use strict";
+
+    var rest = ovh({ vps: { type: 'REST', path: '/vps' } }, { appKey: 'XXX', appSecret: 'XXX' });
+    rest.vps.$get(function (success, error) {
+      assert.equal(success, false);
+      assert.equal(error, 'OVH API: No consumerKey defined.');
+      done();
+    });
+  }
 };
 

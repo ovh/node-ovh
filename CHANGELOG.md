@@ -3,6 +3,7 @@
 ## 0.3.6
 
 * Fixes query string parameters.
+* Remove exception in callREST.
 
 ## 0.3.5
 
