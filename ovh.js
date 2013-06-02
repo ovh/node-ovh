@@ -185,7 +185,9 @@ if (typeof(Proxy) === 'undefined') {
         return _this[name];
       }
 
-      if (typeof(this.$value) !== 'undefined' && typeof(this.$value[name]) !== 'undefined') {
+      if (typeof(this.$value) !== 'undefined' &&
+          Object.prototype.toString.call(this.$value) != '[object Array]' &&
+          typeof(this.$value[name]) !== 'undefined') {
         return this.$value[name];
       }
 
