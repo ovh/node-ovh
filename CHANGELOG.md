@@ -3,6 +3,7 @@
 ## 0.3.6
 
 * Fixes query string parameters.
+* Fixes Proxy getter issue [096bff8].
 * Remove exception in callREST.
 
 ## 0.3.5
