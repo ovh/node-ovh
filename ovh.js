@@ -249,10 +249,10 @@ if (typeof(Proxy) === 'undefined') {
   };
 
   OVHWS.prototype.proxyResponseREST = function (response, refer, callback) {
-    if (Object.prototype.toString.call(response) === '[object Array]') {
+    if (Object.prototype.toString.call(response) == '[object Array]') {
       var result = [];
       for (var i = 0 ; i < response.length ; ++i) {
-        result.push(this.proxyResponseHandlerREST(refer, response[i], response[i]));
+        result.push(this.proxyResponseHandlerREST(refer, response[i]));
       }
 
       callback.call(this.proxyResponseHandlerREST(refer, response), true, result);
