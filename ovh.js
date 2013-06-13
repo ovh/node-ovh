@@ -22,7 +22,15 @@ if (typeof(Proxy) === 'undefined') {
   function OVHWS(wsList, apiKeys, options) {
     this.apiKeys = { appKey: apiKeys.appKey, appSecret: apiKeys.appSecret,
                      consumerKey: apiKeys.consumerKey || null };
-    this.wsList = { auth: { type: 'REST', path: '/auth', host: 'api.ovh.com', basePath: '/1.0' }};
+    this.wsList = {
+      auth: {
+        type: 'REST',
+        path: '/auth',
+        host: 'api.ovh.com',
+        basePath: '/1.0',
+        internal: true
+      }
+    };
     this.wsMetas = {};
     this.options = options;
     this.apiTimeDiff = null;
@@ -507,7 +515,7 @@ if (typeof(Proxy) === 'undefined') {
     };
 
     for (var k in this.wsList) {
-      if (this.wsList.hasOwnProperty(k)) {
+      if (this.wsList.hasOwnProperty(k) && this.wsList[k].internal !== true) {
         checkWS(k);
       }
     }
