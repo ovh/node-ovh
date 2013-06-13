@@ -22,9 +22,10 @@ if (typeof(Proxy) === 'undefined') {
   function OVHWS(wsList, apiKeys, options) {
     this.apiKeys = { appKey: apiKeys.appKey, appSecret: apiKeys.appSecret,
                      consumerKey: apiKeys.consumerKey || null };
-    this.wsList = {};
+    this.wsList = { auth: { type: 'REST', path: '/auth', host: 'api.ovh.com', basePath: '/1.0' }};
     this.wsMetas = {};
     this.options = options;
+    this.apiTimeDiff = null;
 
     // Check and add implicit params in wsList
     for (var apiName in wsList) {
@@ -269,6 +270,19 @@ if (typeof(Proxy) === 'undefined') {
 
   // Call REST API
   OVHWS.prototype.callREST = function (apiName, httpMethod, path, params, callback, refer) {
+    // Time drift
+    if (this.apiTimeDiff === null && path !== '/auth/time') {
+      return this.callREST('auth', 'GET', '/auth/time', {}, function (success, time) {
+        if (!success) {
+          callback(false, 'Unable to fetch OVH API time');
+        }
+        else {
+          this.apiTimeDiff = time - Math.round(Date.now() / 1000);
+          this.callREST(apiName, httpMethod, path, params, callback, refer);
+        }
+      }.bind(this), refer);
+    }
+
     if (apiName !== 'auth' && typeof(this.apiKeys.consumerKey) !== 'string') {
       return callback(false, 'OVH API: No consumerKey defined.');
     }
@@ -322,7 +336,7 @@ if (typeof(Proxy) === 'undefined') {
     // Sign request
     if (apiName !== 'auth') {
       options.headers['X-Ovh-Consumer'] = this.apiKeys.consumerKey;
-      options.headers['X-Ovh-Timestamp'] = Math.round(Date.now() / 1000);
+      options.headers['X-Ovh-Timestamp'] = Math.round(Date.now() / 1000) + this.apiTimeDiff;
       options.headers['X-Ovh-Signature'] = this.signREST(httpMethod, 'https://' + options.host + options.path,
                                                          params, options.headers['X-Ovh-Timestamp']);
     }

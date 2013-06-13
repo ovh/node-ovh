@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.7
+
+* Check time drift
+
 ## 0.3.6
 
 * Fixes query string parameters.
