@@ -393,8 +393,7 @@ if (typeof(Proxy) === 'undefined') {
     if (typeof(this.options.timeout) === 'number') {
       req.on('socket', function (socket) {
         socket.setTimeout(_this.options.timeout);
-        if (typeof(socket._events.timeout) !== 'undefined' &&
-            socket._events.timeout.length === 0) {
+        if (typeof(socket._events.timeout) === 'undefined') {
           socket.on('timeout', function () {
             req.abort();
           });
