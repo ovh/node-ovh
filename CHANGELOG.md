@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.8
+
+* Fixes a potential EventEmitter memory leak when client uses a custom timeout value.
+
 ## 0.3.7
 
 * Check time drift

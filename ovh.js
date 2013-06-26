@@ -393,9 +393,12 @@ if (typeof(Proxy) === 'undefined') {
     if (typeof(this.options.timeout) === 'number') {
       req.on('socket', function (socket) {
         socket.setTimeout(_this.options.timeout);
-        socket.on('timeout', function () {
-          req.abort();
-        });
+        if (typeof(socket._events.timeout) !== 'undefined' &&
+            socket._events.timeout.length === 0) {
+          socket.on('timeout', function () {
+            req.abort();
+          });
+        }
       });
     }
 
