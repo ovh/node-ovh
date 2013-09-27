@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node + OVH - The easiest way to use the OVH API in Node.js</title>
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/prism.css">
+    <link rel="icon" href="img/favicon.png">
+  </head>
+  <body>
+    <div class="man-nav">
+        <div class="container">
+            <h1 class="pull-left">Node + OVH</h1>
+            <div class="pull-right">
+                <ul class="nav nav-pills" id="navbar">
+                    <li><a href="#gettingStarted">Getting Started</a></li>
+                    <li><a href="#examples">Examples</a></li>
+                    <li><a href="#dev">Development</a></li>
+                    <li><a href="#projects">Projects using node-ovh</a></li>
+                    <li><a href="#license">License</a></li>
+                    <li><a href="https://github.com/gierschv/node-ovh/issues">Issues</a></li>
+                    <li><a href="https://github.com/gierschv/node-ovh">Repository</a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="header container">
+        <a href="http://nodejs.org"><img src="img/nodejs-light.png" alt="Node.js" class="nodejs" /></a>
+        <span>+</span>
+        <a href="https://api.ovh.com"><img src="img/ovh-under-construction.png" alt="OVH API" /></a>
+
+        <h2>The easiest way to use the OVH REST API in your Node.js applications.</h2>
+    </div>
+
+    <div class="gettingStarted" id="gettingStarted">
+        <div class="container">
+            <h3>Getting started</h3>
+        </div>
+        <div class="container dots">
+            <div class="step">
+                <div class="dot">1</div>
+                <div class="content">
+                    <h4><span>1.</span> Install node-ovh using NPM</h4>
+                    <p class="important">
+                        The Node.js module "ovh" is unofficial and consequently not maintained by OVH.
+                    </p>
+                    <p>
+                        Please report any issues on <a href="https://github.com/gierschv/node-ovh/issues">Github</a>.
+                    </p>
+                    <pre><code class="language-bash">$ npm install ovh</code></pre>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="step">
+                <div class="dot">2</div>
+                <div class="content">
+                    <h4><span>2.</span> Create an OVH application</h4>
+                    <p>
+                        You need to create a new application on the <a href="https://www.ovh.com/fr/cgi-bin/api/createApplication.cgi">OVH website</a>
+                        in order to have an <strong>application key (AK)</strong> and an <strong>application secret (AS)</strong>.
+                    </p>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="step">
+                <div class="dot">3</div>
+                <div class="content">
+                    <h4><span>3.</span> Authorize your application to use an OVH account</h4>
+                    <p>To allow your application to use an OVH account, you need <strong>a consumer key (CK)</strong>.</p>
+                    <p>
+                        Here is a sample code you can use to allow your application to access to a complete account:
+
+                        <pre><code class="language-javascript">var ovh = require('ovh')({
+  appKey: 'YOUR_APP_KEY',
+  appSecret: 'YOUR_APP_SECRET'
+});
+
+ovh.request('POST', '/auth/credential', {
+  'accessRules': [
+    { 'method': 'GET', 'path': '/*'},
+    { 'method': 'POST', 'path': '/*'},
+    { 'method': 'PUT', 'path': '/*'},
+    { 'method': 'DELETE', 'path': '/*'}
+  ]
+}, function (error, credential) {
+  console.log(error || credential);
+});</code></pre>
+
+                    <pre><code class="language-bash">$ node credentials.js
+{ validationUrl: 'https://api.ovh.com/auth/?credentialToken=XXXXXXX',
+  consumerKey: 'CK',
+  state: 'pendingValidation' }</code></pre>
+                    </p>
+                    <p>
+                        This consumer key can be <strong>scoped with a specific authorization</strong>.
+                        For example if your application will only send SMS:
+
+                        <pre><code class="language-javascript">ovh.request('POST', '/auth/credential', {
+  'accessRules': [
+    { 'method': 'POST', 'path': '/sms/*/jobs'},
+  ]
+}, function (error, credential) {
+  console.log(error || credential);
+});</code></pre>
+                    </p>
+
+                    <p>
+                        Once the consumer key will be authorized on the OVH website, 
+                        you'll be able to play with the API calls allowed by the key.
+                    </p>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="step">
+                <div class="dot">4</div>
+                <div class="content">
+                    <h4><span>4.</span> Let's play!</h4>
+                    <p>You should now be able to play with the API. Look at the examples below.</p>
+                </div>
+            </div>
+    </div></div>
+    <div class="examples" id="examples">
+        <div class="container clearfix">
+            <h3>Examples</h3>
+            <p>
+                Node-ovh can be used in two ways, with or without <a href="http://wiki.ecmascript.org/doku.php?id=harmony:proxies">Harmony Proxies</a>.
+                Each example below is written in the two ways.
+            </p>
+
+            <p>
+                All the examples have a node-ovh module instantiated as below:
+                <pre><code class="language-javascript">var ovh = require('ovh')({
+  appKey: APP_KEY,
+  appSecret: APP_SECRET,
+  consumerKey: APP_CONSUMER_KEY
+});</code></pre>
+            </p>
+
+            <h4>1. Fetch the <a href="https://api.ovh.com/console/#/me">user information</a></h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Without harmony proxies:</p>
+                    <pre><code class="language-javascript">ovh.request('GET', '/me', function (err, me) {
+  console.log(err || me);
+});</code></pre>
+                    <pre><code class="language-bash"></code>$ node me.js
+{ firstname: 'Foo',
+  country: 'FR',
+  language: 'fr_FR',
+  organisation: '',
+  area: '',
+  name: 'Bar',
+  phone: '+33.XXXXXXXXX',
+  email: 'user@domain.tld',
+  city: 'Foo',
+  zip: '42000',
+  fax: '',
+  nichandle: 'aaXXXXXX-ovh',
+  address: '42 rue bar',
+  legalform: 'individual' }</pre>
+                </div>
+                <div class="col-md-6">
+                    <p>With harmony proxies:</p>
+                    <pre><code class="language-javascript">ovh.me.$get(function (err, me) {
+  console.log(err || me);
+});</code></pre>
+
+                    <pre><code class="language-bash"></code>$ node --harmony-proxies me.js
+{ firstname: 'Foo',
+  country: 'FR',
+  language: 'fr_FR',
+  organisation: '',
+  area: '',
+  name: 'Bar',
+  phone: '+33.XXXXXXXXX',
+  email: 'user@domain.tld',
+  city: 'Foo',
+  zip: '42000',
+  fax: '',
+  nichandle: 'aaXXXXXX-ovh',
+  address: '42 rue bar',
+  legalform: 'individual' }</pre>
+                </div>
+            </div>
+
+            <h4>2. Fetch the <a href="https://api.ovh.com/console/#/me">bill list and their summaries then print the PDF urls</a></h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Without harmony proxies:</p>
+                    <pre><code class="language-javascript">var async = require('async');
+
+ovh.request('GET', '/me/bill', function (err, bills) {
+  if (err) { throw err; }
+  async.map(
+    bills,
+    function (bill, callback) {
+      ovh.request('GET', '/me/bill/' + bill, callback);
+    },
+    function (err, bills) {
+      if (err) { throw err; }
+      bills.forEach(function (bill) {
+        console.log(bill.pdfUrl);
+      });
+    }
+  );
+});</code></pre>
+                    <pre><code class="language-bash"></code>$ node bills.js
+https://www.ovh.com/cgi-bin/order/bill.pdf?reference=FRXXXXXXX&amp;passwd=xxxx
+https://www.ovh.com/cgi-bin/order/bill.pdf?reference=FRXXXXXXX&amp;passwd=xxxx
+https://www.ovh.com/cgi-bin/order/bill.pdf?reference=FRXXXXXXX&amp;passwd=xxxx
+[...]</pre>
+                </div>
+                <div class="col-md-6">
+                    <p>With harmony proxies:</p>
+                    <pre><code class="language-javascript">var async = require('async');
+
+ovh.me.bill.$get(function (err, bills) {
+  if (err) { throw err; }
+  async.map(
+    bills,
+    function (bill, callback) {
+      this[bill].$get(callback);
+    }.bind(this),
+    function (err, bills) {
+      if (err) { throw err; }
+      bills.forEach(function (bill) {
+        console.log(bill.pdfUrl);
+      });
+    }
+  );
+});</code></pre>
+                    <pre><code class="language-bash"></code>$ node --harmony-proxies bills.js
+https://www.ovh.com/cgi-bin/order/bill.pdf?reference=FRXXXXXXX&amp;passwd=xxxx
+https://www.ovh.com/cgi-bin/order/bill.pdf?reference=FRXXXXXXX&amp;passwd=xxxx
+https://www.ovh.com/cgi-bin/order/bill.pdf?reference=FRXXXXXXX&amp;passwd=xxxx
+[...]</pre>
+                </div>
+            </div>
+
+            <h4>3. Send a <a href="https://api.ovh.com/console/#/sms">SMS</a></h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Without harmony proxies:</p>
+                    <pre><code class="language-javascript">ovh.request('POST', '/sms/{serviceName}/jobs', {
+  serviceName: 'sms-aaXXXXX-1',
+  message: 'Hello World!',
+  sender: 'Foo',
+  receivers: ['0033600000000']
+ }, function (err, result) {
+  console.log(err || result);
+});</code></pre>
+                    <pre><code class="language-bash">$ node sms.js
+{ totalCreditsRemoved: 1, ids: [ 42 ] }</code></pre>
+                </div>
+                <div class="col-md-6">
+                    <p>With harmony proxies:</p>
+                    <pre><code class="language-javascript">ovh.sms['sms-aaXXXXX-1'].jobs.$post({
+  message: 'Hello World!',
+  sender: 'Foo',
+  receivers: ['0033600000000']
+}, function (err, result) {
+  console.log(err || result);
+});</code></pre>
+                    <pre><code class="language-bash">$ node --harmony-proxies sms.js
+{ totalCreditsRemoved: 1, ids: [ 42 ] }</code></pre>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="dev" id="dev">
+        <div class="container clearfix">
+            <h3>Developing with node-ovh</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>API schemas checks</h4>
+                    <p>
+                        During development, you can ensure that the call you use are still in beta or in production.
+                        You just need to declare the list of the APIs you are using:
+                    </p>
+                    <pre><code class="language-javascript">var ovh = require('../node-ovh')({
+  appKey: APP_KEY,
+  appSecret: APP_SECRET,
+  consumerKey: APP_CONSUMER_KEY,
+  apis: ['me', 'sms']
+});
+
+ovh.me.foo.$get(function (err, result) {});
+ovh.sms['sms-aaXXXXX-1'].histories.$get(function (err, result) {});
+</code></pre>
+
+                    <pre><code class="language-bash">$ node --harmony-proxies dev.js
+[OVH] Your call /me/foo was not found in the API schemas.
+[OVH] Your API call /sms/sms-aaXXXXX-1/histories is tagged DEPRECATED since 2013-07-31T10:00:00+01:00 and will deleted on 2013-09-01T10:00:00+01:00. You can replace it with /sms/{serviceName}/outgoing/{id}
+</code></pre>
+
+                </div>
+                <div class="col-md-6">
+                    <h4>Debug mode</h4>
+                    <p>You can active the debug mode to log all the HTTP requests and responses:</p>
+
+                    <pre><code class="language-javascript">var ovh = require('../node-ovh')({
+  appKey: APP_KEY,
+  appSecret: APP_SECRET,
+  consumerKey: APP_CONSUMER_KEY,
+  debug: true
+});
+
+ovh.domains.$get(function (err, domains) {});
+</code></pre>
+
+                    <pre><code class="language-bash">$ node --harmony-proxies domains.js
+[OVH] API call: GET /1.0/domains 
+[OVH] API response to GET /1.0/domains : ["foo.com", "bar.fr"]
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="projects" id="projects">
+        <div class="container clearfix">
+            <h3>Examples of projects using node-ovh</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="thumbnail">
+                      <img src="img/pca.png">
+                      <div class="caption clearfix">
+                        <h4>node-ovh-pca</h4>
+                        <p>This module provides a fuse mount for <a href="http://www.ovh.ie/cloud/archive/">OVH Public Cloud Archive</a>.</p>
+                        <p class="pull-right">
+                            <a href="https://npmjs.org/package/pca" class="btn btn-primary">NPM</a>
+                            <a href="https://github.com/gierschv/node-ovh-pca" class="btn btn-default">Github</a>
+                        </p>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="thumbnail">
+                      <img src="img/ip.jpg">
+                      <div class="caption clearfix">
+                        <h4>node-ovh-ip</h4>
+                        <p>A really simple UI to manage the OVH network firewall.</p>
+                        <p class="pull-right">
+                            <a href="https://npmjs.org/package/node-ovh-ip" class="btn btn-primary">NPM</a>
+                            <a href="https://github.com/gierschv/node-ovh-ip" class="btn btn-default">Github</a>
+                        </p>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="license container" id="license">
+        <h3>License</h3>
+        <p>node-ovh is freely distributable under the terms of the MIT license.</p>
+
+        <pre>Copyright (c) 2012 - 2013 Vincent Giersch &lt;mail@vincent.sh&gt;
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</pre>
+    </div>
+
+    <div class="footer container">
+        <a href="https://github.com/gierschv/node-ovh"><img src="img/github-mark-32.png" alt="This project on github" /></a>
+    </div>
+    <script src="js/prism.js"></script>
+   </body>
+ </html>

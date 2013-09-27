@@ -1,0 +1,198 @@
+@greenLight: #8CC84B;
+@greyDark: #33342D;
+@greyLight: #46483E;
+
+body {
+	@media (min-width: 992px) {
+		margin-top: 150px;
+	}
+}
+
+h1 {
+	margin-top: 15px;
+	margin-bottom: 20px;
+}
+
+a {
+	color: @text-color;
+	text-decoration: none;
+}
+
+a:hover {
+	color: @greenLight;
+	text-decoration: none;
+}
+
+.man-nav {
+	z-index: 100;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background: #fff;
+	border-top: 6px @greenLight solid;
+
+	@media (max-width: 992px) {
+		position: relative;
+		top: auto;
+	}
+
+	.pull-right {
+		margin: 15px 0 0 0;
+	}
+}
+
+.header {
+	color: @greyDark;
+	margin: 90px auto;
+	text-align: center;
+	font-size: 70px;
+
+	img {
+		vertical-align: middle;
+		margin: 0 30px;
+	}
+
+	img.nodejs {
+		margin-top: -40px;
+	}
+
+	h2 {
+		margin-top: 30px;
+		font-weight: 300;
+		text-align: center;
+	}
+
+	@media (max-width: 992px) {
+		text-align: center;
+
+		img {
+			display: inline-block;
+		}
+
+		span {
+			display: block;
+		}
+	}
+}
+
+h3 {
+	margin: 50px auto 30px auto;
+}
+
+.gettingStarted {
+	background: @greyLight;
+	color: #fff;
+
+	.important {
+		color: @brand-danger;
+	}
+
+	strong {
+		font-weight: normal;
+		color: @greenLight;
+	}
+
+	.dots {
+		max-width: 800px;
+		padding-bottom: 50px;
+		background: url('../img/dots-white.png') repeat-y 100px;
+		@media (max-width: 992px) {
+			background-position: 55px;
+		}
+
+		@media(max-width: 768px) {
+			background: none;
+		}
+	}
+
+	.step {
+		margin-bottom: 60px;
+
+		.dot {
+			float: left;
+			width: 80px;
+			height: 80px;
+			background: #fff;
+			border-radius: 80px;
+			color: @greyLight;
+			text-align: center;
+			line-height: 80px;
+			font-size: 45px;
+			margin-left: 45px;
+
+			@media (max-width: 992px) {
+				margin-left: 0;
+			}
+		}
+
+		@media(max-width: 768px) {
+			.dot {
+				display: none;
+			}
+		}
+
+		h4 {
+			margin-top: 0;
+			color: @greenLight;
+
+			span {
+				display: none;
+				@media(max-width: 768px) {
+					display: inline-block;
+				}
+			}
+		}
+
+		.content {
+			width: 550px;
+			min-height: 100px;
+			float: left;
+			margin-left: 50px;
+
+			@media(max-width: 768px) {
+				width: 100%;
+				margin-left: auto;
+			}
+
+			a {
+				color: #bbb;
+			}
+		}
+	}
+}
+
+pre {
+	width: 100%;
+	background: @greyDark;
+	border: 0;
+	color: #fff;
+}
+
+.examples {
+	background: @greyDark;
+	color: #fff;
+	padding-bottom: 45px;
+
+	a {
+		color: @greenLight;
+	}
+
+	h4 {
+		margin-top: 25px;
+	}
+}
+
+.dev {
+	background: @greyLight;
+	color: #fff;
+	padding-bottom: 45px;
+
+	p {
+		min-height: 45px;
+	}
+}
+
+.footer {
+	text-align: center;
+	margin: 25px auto;
+}
