@@ -1,7 +1,7 @@
 //
 // node-ovh
 //
-// @version 0.3.0
+// @version 1.0.0
 // @author Vincent Giersch <mail@vincent.sh>
 // @license MIT
 //
@@ -10,105 +10,130 @@ var https = require('https'),
     querystring = require('querystring'),
     url = require('url'),
     crypto = require('crypto'),
+    async = require('async'),
     handlerMaker = require('./handler-maker');
-
-if (typeof(Proxy) === 'undefined') {
-  console.error("Please run node with --harmony-proxies flag");
-}
 
 (function () {
   "use strict";
 
-  function OVHWS(wsList, apiKeys, options) {
-    this.apiKeys = { appKey: apiKeys.appKey, appSecret: apiKeys.appSecret,
-                     consumerKey: apiKeys.consumerKey || null };
-    this.wsList = {
-      auth: {
-        type: 'REST',
-        path: '/auth',
-        host: 'api.ovh.com',
-        basePath: '/1.0',
-        internal: true
-      }
-    };
-    this.wsMetas = {};
-    this.options = options;
-    this.apiTimeDiff = null;
+  function Ovh(params) {
+    this.appKey = params.appKey;
+    this.appSecret = params.appSecret;
+    this.consumerKey = params.consumerKey || null;
+    this.timeout = params.timeout;
 
-    // Check and add implicit params in wsList
-    for (var apiName in wsList) {
-      if (wsList.hasOwnProperty(apiName)) {
+    this.host = params.host || 'api.ovh.com';
+    this.port = params.port || 443;
+    this.basePath = params.basePath || '/1.0';
+    this.usedApi = params.apis || [];
 
-        // Backward compatibility with <= v0.2, use as WS
-        if (typeof(wsList[apiName]) === 'string') {
-          this.wsList[apiName] = { type: 'WS', path: wsList[apiName], host: 'ws.ovh.com' };
-        }
-        else if (typeof(wsList[apiName]) === 'object') {
-          // Type and path
-          if (typeof(wsList[apiName].type) === 'undefined') {
-            throw new Error('OVH: `type` is a compulsory parameter');
-          }
-
-          if (wsList[apiName].type !== 'WS' && wsList[apiName].type !== 'REST') {
-            throw new Error('OVH: types supported are (WS|REST)');
-          }
-
-          if (typeof(wsList[apiName].path) === 'undefined') {
-            throw new Error('OVH: `path` is a compulsory parameter');
-          }
-
-          this.wsList[apiName] = { type: wsList[apiName].type, path: wsList[apiName].path, host: wsList[apiName].host };
-
-          // Host, baseName for REST
-          if (this.wsList[apiName].type === 'REST') {
-            // Check for appKey or appSecret for REST usage
-            if (typeof(this.apiKeys.appKey) !== 'string' || typeof(this.apiKeys.appSecret) !== 'string') {
-              throw new Error('OVH API: You should precise an application key / secret');
-            }
-
-            if (typeof(wsList[apiName].host) === 'string') {
-              var host = url.parse(wsList[apiName].host);
-
-              if (typeof(host.host) === 'string') {
-                this.wsList[apiName].host = host.host;
-
-                if (host.slashes) {
-                  this.wsList[apiName].basePath = host.pathname;
-                }
-              }
-              else {
-                this.wsList[apiName].host = wsList[apiName].host;
-              }
-            }
-
-            if (typeof(wsList[apiName].basePath) === 'string') {
-              this.wsList[apiName].basePath = wsList[apiName].basePath;
-            }
-
-            // Default values
-            if (typeof(this.wsList[apiName].host) === 'undefined') {
-              this.wsList[apiName].host = 'api.ovh.com';
-            }
-
-            if (typeof(this.wsList[apiName].basePath) === 'undefined') {
-              this.wsList[apiName].basePath = '/1.0';
-            }
-          }
-          // Host for WS
-          else {
-            if (typeof(this.wsList[apiName].host) !== 'string') {
-              this.wsList[apiName].host = 'ws.ovh.com';
-            }
-          }
-        }
-      }
+    this.warn = params.warn || console.log;
+    this.debug = params.debug || false;
+    if (this.debug && typeof(this.debug) !== 'function') {
+      this.debug = console.log;
     }
 
-    return this.createRootProxy();
+    this.apis = { _path: '' };
+    this.apisLoaded = !this.usedApi.length;
+
+    if (typeof(this.appKey) !== 'string' ||
+        typeof(this.appSecret) !== 'string') {
+      throw new Error('[OVH] You should precise an application key / secret');
+    }
+
+    if (typeof(Proxy) !== 'undefined') {
+      return this.createRootProxy();
+    }
   }
 
+  Ovh.prototype.loadSchemas = function (path, callback) {
+    var request = {
+      host: this.host,
+      port: this.port,
+      path: this.basePath + path
+    };
+
+    // Fetch ony selected APIs
+    if (path === '/') {
+      return async.each(
+        this.usedApi,
+        function (apiName, callback) {
+          this.loadSchemas('/' + apiName + '.json', callback);
+        }.bind(this),
+        callback
+      );
+    }
+
+    // Fetch all APIs
+    this.loadSchemasRequest(request, function (err, schema) {
+      if (err) {
+        throw err;
+      }
+
+      async.each(
+        schema.apis,
+        function (api, callback) {
+          if (api.schema) {
+            this.loadSchemas(api.path + '.json', callback);
+          }
+          else {
+            var apiPath = api.path.split('/');
+            this.addApi(apiPath, api, this.apis);
+            callback(null);
+          }
+        }.bind(this),
+        function (err) {
+          callback(err);
+        }
+      );
+    }.bind(this));
+  };
+
+  Ovh.prototype.addApi = function (apiPath, api, apis) {
+    var path = apiPath.shift();
+    if (path === '') {
+      return this.addApi(apiPath, api, apis);
+    }
+
+    if (typeof (apis[path]) === 'undefined') {
+      apis[path] = { _path: apis._path + '/' + path };
+    }
+
+    if (apiPath.length > 0) {
+      return this.addApi(apiPath, api, apis[path]);
+    }
+
+    apis[path]._api = api;
+  };
+
+  Ovh.prototype.loadSchemasRequest = function (options, callback) {
+    https.get(options, function (res) {
+      var body = '';
+      res.on('data', function (chunk) {
+        body += chunk;
+      })
+      .on('end', function () {
+        try {
+          body = JSON.parse(body);
+        } catch (e) {
+          if (res.statusCode !== 200) {
+            callback('[OVH] HTTP code is : ' + res.statusCode, res.statusCode);
+          }
+          else {
+            callback('[OVH] Unable to parse the schema: ' + options.path);
+          }
+        }
+
+        callback(null, body);
+      });
+    })
+    .on('error', function (err) {
+      callback('[OVH] Unable to fetch the schemas: ' + err);
+    });
+  };
+
   // Default REST actions
-  OVHWS.prototype.actionsREST = {
+  Ovh.prototype.actionsREST = {
     'get': 'GET',
     'query': 'GET',
     'post': 'POST',
@@ -117,51 +142,28 @@ if (typeof(Proxy) === 'undefined') {
     'delete': 'DELETE'
   };
 
-  // Create handler for root proxy (OVHWS.{ws-name}.{method}{.call,})
-  OVHWS.prototype.createRootProxy = function () {
-    // Proxy
-    var handler = handlerMaker(this),
-        _this = this;
+  // Create handler for root proxy (Ovh.{apiName}.{method}{.call,})
+  Ovh.prototype.createRootProxy = function () {
+    var handler = handlerMaker(this);
 
-    // Catch WS name
+    // Catch API name
     handler.get = function (target, name) {
-      if (typeof(_this[name]) !== 'undefined') {
-        return _this[name];
+      if (typeof(this[name]) !== 'undefined') {
+        return this[name];
       }
 
-      if (_this.wsList[name] === undefined) {
-        return undefined;
-      }
-
-      // Catch WS method name
-      if (_this.wsList[name].type === 'WS') {
-        var handler = handlerMaker();
-        handler.$ws = name;
-        handler.get = function (target, name) {
-          var ws = this.$ws;
-          return {
-            call: function (params, callback) {
-              return _this.callWS(ws, name, params, callback);
-            }
-          };
-        };
-
-        return Proxy.create(handler);
-      }
-      else {
-        return _this.proxyREST(target, name);
-      }
-    };
+      return this.proxyREST(target, name);
+    }.bind(this);
 
     return Proxy.create(handler);
   };
 
-  OVHWS.prototype.proxyREST = function (target, name, reuseHandler) {
+  Ovh.prototype.proxyREST = function (target, name, reuseHandler) {
     var _this = this,
         handler = handlerMaker();
 
     // Root
-    if (typeof(target.wsList) !== 'undefined') {
+    if (typeof(target.apis) !== 'undefined') {
       handler.$api = name;
       handler.$path = [name];
     }
@@ -195,20 +197,13 @@ if (typeof(Proxy) === 'undefined') {
       }
 
       if (typeof(this.$value) !== 'undefined' &&
-          Object.prototype.toString.call(this.$value) != '[object Array]' &&
+          Object.prototype.toString.call(this.$value) !== '[object Array]' &&
           typeof(this.$value[name]) !== 'undefined') {
         return this.$value[name];
       }
 
       // Action
-      if (typeof(this.wsList) === 'undefined' && name === 'call' || name === '$call') {
-        return function (httpMethod, path, params, callback) {
-          _this.callREST(_handler.$api, httpMethod, path,
-                         typeof(params) === 'function' ? {} : params,
-                         typeof(params) === 'function' ? params : callback);
-        };
-      }
-      else if (name.charAt(0) === '$') {
+      if (name.charAt(0) === '$') {
         var strippedName = name.substring(1);
         if (_this.actionsREST.hasOwnProperty(strippedName)) {
           return function (params, callback) {
@@ -221,11 +216,11 @@ if (typeof(Proxy) === 'undefined') {
               }
             }
 
-            _this.callREST(_handler.$api, _this.actionsREST[strippedName],
-                           '/' + _handler.$path.join('/'),
-                           _handler.$params,
-                           typeof(params) === 'function' ? params : callback,
-                           _handler);
+            _this.request(_this.actionsREST[strippedName],
+                          '/' + _handler.$path.join('/'),
+                          _handler.$params,
+                          typeof(params) === 'function' ? params : callback,
+                          _handler);
           };
         }
       }
@@ -241,7 +236,7 @@ if (typeof(Proxy) === 'undefined') {
     return Proxy.create(handler);
   };
 
-  OVHWS.prototype.proxyResponseHandlerREST = function (refer, object) {
+  Ovh.prototype.proxyResponseHandlerREST = function (refer, object) {
     if (typeof(object) !== 'object' || object === null) {
       return object;
     }
@@ -257,42 +252,123 @@ if (typeof(Proxy) === 'undefined') {
     return this.proxyREST(handler, undefined, true);
   };
 
-  OVHWS.prototype.proxyResponseREST = function (response, refer, callback) {
-    if (Object.prototype.toString.call(response) == '[object Array]') {
+  Ovh.prototype.proxyResponseREST = function (response, refer, callback) {
+    if (Object.prototype.toString.call(response) === '[object Array]') {
       var result = [];
       for (var i = 0 ; i < response.length ; ++i) {
         result.push(this.proxyResponseHandlerREST(refer, response[i]));
       }
 
-      callback.call(this.proxyResponseHandlerREST(refer, response), true, result);
+      callback.call(this.proxyResponseHandlerREST(refer, response), null, result);
     }
     else {
       var proxy = this.proxyResponseHandlerREST(refer, response);
-      callback.call(proxy, true, proxy);
+      callback.call(proxy, null, proxy);
     }
   };
 
-  OVHWS.prototype.setClientCredentials = function (consumerKey) {
-    this.consumerKey = consumerKey;
+  Ovh.prototype.getSchema = function (path) {
+    console.log('getSchema', path);
   };
 
-  // Call REST API
-  OVHWS.prototype.callREST = function (apiName, httpMethod, path, params, callback, refer) {
+  Ovh.prototype.warnsRequest = function (httpMethod, pathStr) {
+    var path = pathStr.split('/'),
+        api = this.apis,
+        i;
+
+    while (path.length > 0) {
+      var pElem = path.shift();
+      if (pElem === '') {
+        continue;
+      }
+
+      if (typeof(api[pElem]) !== 'undefined') {
+        api = api[pElem];
+        continue;
+      }
+
+      var keys = Object.keys(api);
+      for (i = 0 ; i < keys.length ; ++i) {
+        if (keys[i].charAt(0) === '{') {
+          api = api[keys[i]];
+          keys = null;
+          break;
+        }
+      }
+
+      if (keys) {
+        return this.warn(
+          '[OVH] Your call ' + pathStr + ' was not found in the API schemas.'
+        );
+      }
+    }
+
+
+    if (typeof(api._api) === 'undefined' ||
+        typeof(api._api.operations) === 'undefined') {
+      return this.warn(
+        '[OVH] Your call ' + pathStr + ' was not found in the API schemas.'
+      );
+    }
+
+    for (i = 0 ; i < api._api.operations.length ; ++i) {
+      if (api._api.operations[i].httpMethod === httpMethod) {
+        if (api._api.operations[i].apiStatus.value === 'DEPRECATED') {
+          var status = api._api.operations[i].apiStatus;
+          return this.warn(
+            '[OVH] Your API call ' + pathStr + ' is tagged DEPRECATED since ' +
+            status.deprecatedDate +
+            ' and will deleted on ' + status.deletionDate,
+            '. You can replace it with ' + status.replacement
+          );
+        }
+
+        return true;
+      }
+    }
+
+    return this.warn(
+      '[OVH] The method ' + httpMethod + ' for the API call ' +
+      pathStr + ' was not found in the API schemas.'
+    );
+  };
+
+  Ovh.prototype.request = function (httpMethod, path, params, callback, refer) {
+    if (typeof(callback) === 'undefined') {
+      callback = params;
+    }
+
+    // Schemas
+    if (!this.apisLoaded) {
+      return this.loadSchemas('/', function (err) {
+        if (err) {
+          return callback(err);
+        }
+
+        this.apisLoaded = true;
+        return this.request(httpMethod, path, params, callback, refer);
+      }.bind(this));
+    }
+
+    // Potential warnings
+    if (Object.keys(this.apis).length > 1) {
+      this.warnsRequest(httpMethod, path);
+    }
+    
     // Time drift
     if (this.apiTimeDiff === null && path !== '/auth/time') {
-      return this.callREST('auth', 'GET', '/auth/time', {}, function (success, time) {
-        if (!success) {
-          callback(false, 'Unable to fetch OVH API time');
+      return this.request('GET', '/auth/time', {}, function (err, time) {
+        if (err) {
+          return callback('[OVH] Unable to fetch OVH API time');
         }
-        else {
-          this.apiTimeDiff = time - Math.round(Date.now() / 1000);
-          this.callREST(apiName, httpMethod, path, params, callback, refer);
-        }
+
+        this.apiTimeDiff = time - Math.round(Date.now() / 1000);
+        return this.request(httpMethod, path, params, callback, refer);
       }.bind(this), refer);
     }
 
-    if (apiName !== 'auth' && typeof(this.apiKeys.consumerKey) !== 'string') {
-      return callback(false, 'OVH API: No consumerKey defined.');
+    if (path.indexOf('/auth') < 0 && typeof(this.consumerKey) !== 'string') {
+      return callback('[OVH] No consumerKey defined');
     }
 
     // Replace "{str}", used for $call()
@@ -313,16 +389,16 @@ if (typeof(Proxy) === 'undefined') {
     }
 
     var options = {
-      host: this.wsList[apiName].host,
-      port: 443,
+      host: this.host,
+      port: this.port,
       method: httpMethod,
-      path: this.wsList[apiName].basePath + path
+      path: this.basePath + path
     };
 
     // Headers
     options.headers = {
       'Content-Type': 'application/json',
-      'X-Ovh-Application': this.apiKeys.appKey,
+      'X-Ovh-Application': this.appKey,
     };
 
     // Remove undefined values
@@ -342,14 +418,28 @@ if (typeof(Proxy) === 'undefined') {
     }
 
     // Sign request
-    if (apiName !== 'auth') {
-      options.headers['X-Ovh-Consumer'] = this.apiKeys.consumerKey;
-      options.headers['X-Ovh-Timestamp'] = Math.round(Date.now() / 1000) + this.apiTimeDiff;
-      options.headers['X-Ovh-Signature'] = this.signREST(httpMethod, 'https://' + options.host + options.path,
-                                                         params, options.headers['X-Ovh-Timestamp']);
+    if (path.indexOf('/auth') < 0) {
+      options.headers['X-Ovh-Consumer'] = this.consumerKey;
+      options.headers['X-Ovh-Timestamp'] =
+        Math.round(Date.now() / 1000) + this.apiTimeDiff;
+      options.headers['X-Ovh-Signature'] =
+        this.signRequest(
+          httpMethod, 'https://' + options.host + options.path,
+          params, options.headers['X-Ovh-Timestamp']
+        );
     }
 
-    var _this = this;
+    if (this.debug) {
+      this.debug(
+        '[OVH] API call:',
+        options.method, options.path,
+        (httpMethod === 'PUT' || httpMethod === 'POST' &&
+         typeof(params) === 'object' && Object.keys(params).length > 0) ?
+          JSON.stringify(params) : ''
+        );
+
+    }
+
     var req = https.request(options, function (res) {
       var body = '';
       res.on('data', function (chunk) {
@@ -361,58 +451,66 @@ if (typeof(Proxy) === 'undefined') {
 
         try {
           response = JSON.parse(body);
+          if (this.debug) {
+            this.debug(
+              '[OVH]',
+              'API response to',
+              options.method, options.path, ':',
+              body
+            );
+          }
+
         } catch (e) {
           if (res.statusCode !== 200) {
-            callback(false, res.statusCode);
+            return callback('[OVH] HTTP code is : ' + res.statusCode, res.statusCode);
           }
           else {
-            callback(false, 'Unable to parse JSON reponse');
+            return callback('[OVH] Unable to parse JSON reponse');
           }
-          return false;
         }
 
         if (res.statusCode !== 200) {
-          callback(false, res.statusCode, response.message);
+          callback(res.statusCode, response.message);
         }
         else {
           // Return a proxy (for potential next request)
           if (typeof(refer) !== 'undefined') {
-            _this.proxyResponseREST(response, refer, callback);
+            this.proxyResponseREST(response, refer, callback);
           }
           else {
-            callback(true, response);
+            callback(null, response);
           }
         }
-      });
-    });
+      }.bind(this));
+    }.bind(this));
 
     req.on('error', function (e) {
-      callback(false, e.errno);
+      callback(e.errno);
     });
 
-    if (typeof(this.options.timeout) === 'number') {
+    if (typeof(this.timeout) === 'number') {
       req.on('socket', function (socket) {
-        socket.setTimeout(_this.options.timeout);
+        socket.setTimeout(this.timeout);
         if (typeof(socket._events.timeout) === 'undefined') {
           socket.on('timeout', function () {
             req.abort();
           });
         }
-      });
+      }.bind(this));
     }
 
-    if (typeof(params) === 'object' && Object.keys(params).length > 0) {
+    if (httpMethod === 'PUT' || httpMethod === 'POST' &&
+        typeof(params) === 'object' && Object.keys(params).length > 0) {
       req.write(JSON.stringify(params));
     }
 
     req.end();
   };
 
-  // Sign a REST request
-  OVHWS.prototype.signREST = function (httpMethod, url, params, timestamp) {
+  Ovh.prototype.signRequest = function (httpMethod, url, params, timestamp) {
     var s = [
-      this.apiKeys.appSecret,
-      this.apiKeys.consumerKey,
+      this.appSecret,
+      this.consumerKey,
       httpMethod,
       url,
       (httpMethod === 'PUT' || httpMethod === 'POST') &&
@@ -424,107 +522,8 @@ if (typeof(Proxy) === 'undefined') {
     return '$1$' + crypto.createHash('sha1').update(s.join('+')).digest('hex');
   };
 
-  // Call a WS
-  OVHWS.prototype.callWS = function (ws, method, params, callback) {
-    var options = {
-      host: this.wsList[ws].host,
-      port: 443,
-      method: 'GET',
-      path: '/' + this.wsList[ws].path + '/rest.dispatcher/' + method + '?' + querystring.stringify({ params: JSON.stringify(params) })
-    };
-
-    var req = https.request(options, function (res) {
-      if (res.statusCode !== 200) {
-        callback(false, 'HTTP error code ' + res.statusCode);
-      }
-      else {
-        var body = '';
-        res.on('data', function (chunk) {
-          body += chunk;
-        });
-
-        res.on('end', function () {
-          var response;
-
-          try {
-            response = JSON.parse(body);
-          } catch (e) {
-            callback(false, 'Unable to parse JSON reponse');
-            return false;
-          }
-
-          if (response.error) {
-            callback(false, response.error);
-          }
-          else {
-            callback(true, response.answer);
-          }
-        });
-      }
-    });
-
-    req.on('error', function (e) {
-      callback(false, e.errno);
-    });
-
-    req.end();
-  };
-
-  // Check the existence of WS schemas
-  // @param callback(wsPrefix, success, errorMsg)
-  OVHWS.prototype.checkWS = function (callback) {
-    var _this = this;
-
-    var checkWS = function (k) {
-      var options = {
-        host: _this.wsList[k].host,
-        port: 443,
-        method: 'GET'
-      };
-
-      if (_this.wsList[k].type === 'REST') {
-        options.path = (_this.wsList[k].basePath || '/') + _this.wsList[k].path + '.json';
-      }
-      else {
-        options.path = '/' + _this.wsList[k].path + '/schema.json';
-      }
-
-      var _k = k;
-
-      var req = https.request(options, function (res) {
-        if (res.statusCode !== 200) {
-          callback(k, false, 'Unable to find WS ' + _this.wsList[k]);
-        }
-        else {
-          var body = '';
-          res.on('data', function (chunk) {
-            body += chunk;
-          });
-
-          res.on('end', function () {
-            var wsMeta = JSON.parse(body);
-            callback(k, true);
-            _this.wsMetas[k] = wsMeta;
-          });
-        }
-      });
-
-      req.on('error', function (e) {
-        callback(k, false, 'Unable to fetch WS schema ' + _this.wsList[k]);
-      });
-
-      req.end();
-    };
-
-    for (var k in this.wsList) {
-      if (this.wsList.hasOwnProperty(k) && this.wsList[k].internal !== true) {
-        checkWS(k);
-      }
-    }
-  };
-
-  module.exports = function (wsList, apiKeys, options) {
-    return new OVHWS(wsList, apiKeys || {}, options || {});
+  module.exports = function (params) {
+    return new Ovh(params || {});
   };
 
 }).call(this);

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.0
+
+* WS are not supported anymore
+* The usage of the Harmony proxies usage is optionnal
+* Callbacks are designed "errors first"
+* Optionnal check of the existance of a method in the APIs schemas and its status (PRODUCTION, DEPRECATED, etc.)
+* Debug mode
+* New documentation
+
 ## 0.3.8
 
 * Fixes a potential EventEmitter memory leak when client uses a custom timeout value.

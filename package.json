@@ -1,17 +1,14 @@
 {
     "name": "ovh",
-    "version": "0.3.8",
-    "description": "An helper library to use OVH web services and REST APIs",
+    "version": "1.0.0",
+    "description": "A helper library to use OVH.com REST API (v6)",
     "homepage": "https://github.com/gierschv/node-ovh",
     "author": "Vincent Giersch <mail@vincent.sh>",
     "contributors": [],
     "keywords": [
-        "ovh"
+        "OVH", "API", "REST", "APIv6"
     ],
     "main": "./ovh.js",
-    "engines": {
-        "node": ">= 0.6 <= 0.11.x"
-    },
     "repository": {
         "type": "git",
         "url": "https://github.com/gierschv/node-ovh.git"
@@ -19,11 +16,14 @@
     "bugs": {
         "url": "https://github.com/gierschv/node-ovh/issues"
     },
+    "dependencies": {
+        "async"     : "latest"
+    },
     "devDependencies" : {
         "jshint"    : "latest",
         "mocha"     : "latest"
     },
     "scripts": {
-        "test": "make no_auth_test"
+        "test": "make no_auth"
     }
 }

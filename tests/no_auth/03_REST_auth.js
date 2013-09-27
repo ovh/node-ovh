@@ -3,7 +3,7 @@
 //
 
 var fs = require('fs'),
-    ovh = require('..'),
+    ovh = require('../..'),
     assert = require('assert');
 
 // Use rico app credentials for unit tests
@@ -12,47 +12,41 @@ var APP_KEY = 'Pu8MQUKdCCSS5n0J',
     APP_SECRET = 'wC34J1zlMg0kvvZ05TGhpxSLT0JN2u48';
 
 exports.REST_call = {
-  'GET /auth/time - auth.call()': function (done) {
+  'GET /auth/time - ovh.request()': function (done) {
     "use strict";
 
     var rest = ovh({
-      auth: { type: 'REST', path: '/auth' }
-    }, {
       appKey: APP_KEY,
       appSecret: APP_SECRET
     });
 
-    rest.auth.call('GET', '/auth/time', {}, function (success, result) {
-      assert.ok(success && typeof(result) === 'number');
+    rest.request('GET', '/auth/time', {}, function (err, result) {
+      assert.ok(!err && typeof(result) === 'number');
       done();
     });
   },
-  'GET /auth/time - [object].$get()': function (done) {
+  '[Proxy] GET /auth/time - [object].$get()': function (done) {
     "use strict";
 
     var rest = ovh({
-      auth: { type: 'REST', path: '/auth' }
-    }, {
       appKey: APP_KEY,
       appSecret: APP_SECRET
     });
 
-    rest.auth.time.$get(function (success, result) {
-      assert.ok(success && typeof(result) === 'number');
+    rest.auth.time.$get(function (err, result) {
+      assert.ok(!err && typeof(result) === 'number');
       done();
     });
   },
-  'GET /auth/credential - auth.call()': function (done) {
+  'GET /auth/credential - ovh.request()': function (done) {
     "use strict";
 
     var rest = ovh({
-      auth: { type: 'REST', path: '/auth' }
-    }, {
       appKey: APP_KEY,
       appSecret: APP_SECRET
     });
 
-    rest.auth.call('POST', '/auth/credential', {
+    rest.request('POST', '/auth/credential', {
       'accessRules': [
         { 'method': 'GET', 'path': '/*'},
         { 'method': 'POST', 'path': '/*'},
@@ -60,17 +54,15 @@ exports.REST_call = {
         { 'method': 'DELETE', 'path': '/*'}
       ],
       'redirection': 'https://npmjs.org/package/ovh'
-    }, function (success, credential) {
-      assert.ok(success && credential.state === 'pendingValidation');
+    }, function (err, credential) {
+      assert.ok(!err && credential.state === 'pendingValidation');
       done();
     });
   },
-  'GET /auth/credential - [object].$post()': function (done) {
+  '[Proxy] GET /auth/credential - [object].$post()': function (done) {
     "use strict";
 
     var rest = ovh({
-      auth: { type: 'REST', path: '/auth' }
-    }, {
       appKey: APP_KEY,
       appSecret: APP_SECRET
     });
@@ -83,8 +75,8 @@ exports.REST_call = {
         { 'method': 'DELETE', 'path': '/*'}
       ],
       'redirection': 'https://npmjs.org/package/ovh'
-    }, function (success, credential) {
-      assert.ok(success && credential.state === 'pendingValidation');
+    }, function (err, credential) {
+      assert.ok(!err && credential.state === 'pendingValidation');
       done();
     });
   }
