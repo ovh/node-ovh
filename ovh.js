@@ -353,11 +353,6 @@ var https = require('https'),
         return this.request(httpMethod, path, params, callback, refer);
       }.bind(this));
     }
-
-    // Potential warnings
-    if (Object.keys(this.apis).length > 1) {
-      this.warnsRequest(httpMethod, path);
-    }
     
     // Time drift
     if (this.apiTimeDiff === null && path !== '/auth/time') {
@@ -369,6 +364,11 @@ var https = require('https'),
         this.apiTimeDiff = time - Math.round(Date.now() / 1000);
         return this.request(httpMethod, path, params, callback, refer);
       }.bind(this), refer);
+    }
+
+    // Potential warnings
+    if (Object.keys(this.apis).length > 1) {
+      this.warnsRequest(httpMethod, path);
     }
 
     if (path.indexOf('/auth') < 0 && typeof(this.consumerKey) !== 'string') {
