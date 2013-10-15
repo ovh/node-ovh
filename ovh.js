@@ -21,6 +21,7 @@ var https = require('https'),
     this.appSecret = params.appSecret;
     this.consumerKey = params.consumerKey || null;
     this.timeout = params.timeout;
+    this.apiTimeDiff = params.apiTimeDiff || null;
 
     this.host = params.host || 'api.ovh.com';
     this.port = params.port || 443;
