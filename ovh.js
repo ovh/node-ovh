@@ -27,6 +27,9 @@ var https = require('https'),
     this.port = params.port || 443;
     this.basePath = params.basePath || '/1.0';
     this.usedApi = params.apis || [];
+    if (this.usedApi.length > 0 && this.usedApi.indexOf('auth') < 0) {
+      this.usedApi.push('auth');
+    }
 
     this.warn = params.warn || console.log;
     this.debug = params.debug || false;
