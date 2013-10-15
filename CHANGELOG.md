@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+* Fix initial value for apiTimeDiff (gierschv/node-ovh#1)
+* Include auth API for /auth/time if `usedApi` parameter is defined
+* Fix duplicate call of warning function
+
 ## 1.0.0
 
 * WS are not supported anymore
