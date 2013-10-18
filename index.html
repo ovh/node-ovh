@@ -75,11 +75,16 @@
                     <h4><span>3.</span> Authorize your application to use an OVH account</h4>
                     <p>To allow your application to use an OVH account, you need <strong>a consumer key (CK)</strong>.</p>
                     <p>
-                        Here is a sample code you can use to allow your application to access to a complete account:
-
-                        <pre><code class="language-javascript">var ovh = require('ovh')({
+                        Here is a sample code you can use to allow your application to access to a complete account.
+                    </p>
+                    <p>
+                        Optionally, you can specify the API host (<a href="https://eu.api.ovh.com">eu.api.ovh.com</a> or
+                        <a href="https://ca.api.ovh.com">ca.api.ovh.com</a>). The default one is the european one.
+                    </p>
+                    <pre><code class="language-javascript">var ovh = require('ovh')({
   appKey: 'YOUR_APP_KEY',
-  appSecret: 'YOUR_APP_SECRET'
+  appSecret: 'YOUR_APP_SECRET',
+  host: 'eu.api.ovh.com'
 });
 
 ovh.request('POST', '/auth/credential', {
