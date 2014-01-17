@@ -415,7 +415,10 @@ var https = require('https'),
     var reqBody = null;
     if (typeof(params) === 'object' && Object.keys(params).length > 0) {
       if (httpMethod === 'PUT' || httpMethod === 'POST') {
-        reqBody = JSON.stringify(params);
+        // Escape unicode
+        reqBody = JSON.stringify(params).replace(/[\u0080-\uFFFF]/g, function(m) {
+          return "\\u" + ("0000" + m.charCodeAt(0).toString(16)).slice(-4);
+        });
         options.headers['Content-Length'] = reqBody.length;
       }
       else {
