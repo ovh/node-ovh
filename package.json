@@ -1,8 +1,8 @@
 {
     "name": "ovh",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A helper library to use OVH.com REST API (v6)",
-    "homepage": "https://github.com/gierschv/node-ovh",
+    "homepage": "http://gierschv.github.io/node-ovh",
     "author": "Vincent Giersch <mail@vincent.sh>",
     "contributors": [],
     "keywords": [

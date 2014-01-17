@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+* Fix noAuthenticated calls
+* Optionnal consumer key, now checked only on debug
+* Fix unicode (thanks to @naholyr #4)
+
 ## 1.0.1
 
 * Fix initial value for apiTimeDiff (gierschv/node-ovh#1)
