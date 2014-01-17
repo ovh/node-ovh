@@ -361,7 +361,7 @@ var https = require('https'),
         return this.request(httpMethod, path, params, callback, refer);
       }.bind(this));
     }
-    
+
     // Time drift
     if (this.apiTimeDiff === null && path !== '/auth/time') {
       return this.request('GET', '/auth/time', {}, function (err, time) {
@@ -416,9 +416,14 @@ var https = require('https'),
       }
     }
 
+    var reqBody = null;
     if (typeof(params) === 'object' && Object.keys(params).length > 0) {
       if (httpMethod === 'PUT' || httpMethod === 'POST') {
-        options.headers['Content-Length'] = JSON.stringify(params).length;
+        // Escape unicode
+        reqBody = JSON.stringify(params).replace(/[\u0080-\uFFFF]/g, function(m) {
+          return "\\u" + ("0000" + m.charCodeAt(0).toString(16)).slice(-4);
+        });
+        options.headers['Content-Length'] = reqBody.length;
       }
       else {
         options.path += '?' + querystring.stringify(params);
@@ -435,7 +440,7 @@ var https = require('https'),
         options.headers['X-Ovh-Signature'] =
           this.signRequest(
             httpMethod, 'https://' + options.host + options.path,
-            params, options.headers['X-Ovh-Timestamp']
+            reqBody, options.headers['X-Ovh-Timestamp']
           );
       }
     }
@@ -444,11 +449,8 @@ var https = require('https'),
       this.debug(
         '[OVH] API call:',
         options.method, options.path,
-        (httpMethod === 'PUT' || httpMethod === 'POST' &&
-         typeof(params) === 'object' && Object.keys(params).length > 0) ?
-          JSON.stringify(params) : ''
-        );
-
+        reqBody || ''
+      );
     }
 
     var req = https.request(options, function (res) {
@@ -510,23 +512,20 @@ var https = require('https'),
       }.bind(this));
     }
 
-    if (httpMethod === 'PUT' || httpMethod === 'POST' &&
-        typeof(params) === 'object' && Object.keys(params).length > 0) {
-      req.write(JSON.stringify(params));
+    if (reqBody !== null) {
+      req.write(reqBody);
     }
 
     req.end();
   };
 
-  Ovh.prototype.signRequest = function (httpMethod, url, params, timestamp) {
+  Ovh.prototype.signRequest = function (httpMethod, url, body, timestamp) {
     var s = [
       this.appSecret,
       this.consumerKey,
       httpMethod,
       url,
-      (httpMethod === 'PUT' || httpMethod === 'POST') &&
-        typeof(params) === 'object' &&
-        Object.keys(params).length > 0 ? JSON.stringify(params) : '',
+      body || '',
       timestamp
     ];
 
