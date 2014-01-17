@@ -61,5 +61,22 @@ exports.REST_check = {
     rest.request('OVH', '/me', function (err) {
       assert.ok(err);
     });
-  }
+  },
+  'Call method without CK': function (done) {
+    "use strict";
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET,
+      apis: ['me'],
+      warn: function (err) {
+        assert.equal(err, '[OVH] The API call /me requires an authentication with a consumer key.');
+        done();
+      }
+    });
+
+    rest.request('GET', '/me', function (err) {
+      assert.ok(err);
+    });
+  },
 };

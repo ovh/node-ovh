@@ -327,6 +327,14 @@ var https = require('https'),
           );
         }
 
+        if (typeof(this.consumerKey) !== 'string' &&
+            !api._api.operations[i].noAuthentication) {
+          return this.warn(
+            '[OVH] The API call ' + pathStr + ' requires an authentication' +
+            ' with a consumer key.'
+          );
+        }
+
         return true;
       }
     }
@@ -369,10 +377,6 @@ var https = require('https'),
     // Potential warnings
     if (Object.keys(this.apis).length > 1) {
       this.warnsRequest(httpMethod, path);
-    }
-
-    if (path.indexOf('/auth') < 0 && typeof(this.consumerKey) !== 'string') {
-      return callback('[OVH] No consumerKey defined');
     }
 
     // Replace "{str}", used for $call()

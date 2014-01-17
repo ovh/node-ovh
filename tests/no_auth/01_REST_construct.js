@@ -41,7 +41,7 @@ exports.REST_construct = {
 
     var rest = ovh({ appKey: 'XXX', appSecret: 'XXX', apis: [] });
     rest.request('GET', '/me', function (err) {
-      assert.equal(err, '[OVH] No consumerKey defined');
+      assert.equal(err, 403);
       done();
     });
   }
