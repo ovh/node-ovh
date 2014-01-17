@@ -425,16 +425,19 @@ var https = require('https'),
       }
     }
 
-    // Sign request
     if (path.indexOf('/auth') < 0) {
-      options.headers['X-Ovh-Consumer'] = this.consumerKey;
       options.headers['X-Ovh-Timestamp'] =
         Math.round(Date.now() / 1000) + this.apiTimeDiff;
-      options.headers['X-Ovh-Signature'] =
-        this.signRequest(
-          httpMethod, 'https://' + options.host + options.path,
-          params, options.headers['X-Ovh-Timestamp']
-        );
+
+      // Sign request
+      if (typeof(this.consumerKey) === 'string') {
+        options.headers['X-Ovh-Consumer'] = this.consumerKey;
+        options.headers['X-Ovh-Signature'] =
+          this.signRequest(
+            httpMethod, 'https://' + options.host + options.path,
+            params, options.headers['X-Ovh-Timestamp']
+          );
+      }
     }
 
     if (this.debug) {

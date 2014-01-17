@@ -40,8 +40,8 @@ exports.REST_construct = {
     "use strict";
 
     var rest = ovh({ appKey: 'XXX', appSecret: 'XXX', apis: [] });
-    rest.request('GET', '/me', function (err) {
-      assert.equal(err, 403);
+    rest.request('GET', '/me', function (err, message) {
+      assert.equal(err, 401);
       done();
     });
   }
