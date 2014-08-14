@@ -1,0 +1,26 @@
+{
+   "models" : {},
+   "resourcePath" : "/me",
+   "apiVersion" : "1.0",
+   "apis" : [
+      {
+         "operations" : [
+            {
+               "parameters" : [
+               ],
+               "httpMethod" : "GET",
+               "apiStatus" : {
+                  "value" : "PRODUCTION",
+                  "description" : "Stable production version"
+               },
+               "noAuthentication" : 0,
+               "description" : "Stub",
+               "responseType" : "string"
+            }
+         ],
+         "path" : "/me",
+         "description" : "me"
+      }
+   ],
+   "basePath" : "https://api.ovh.com/1.0"
+}

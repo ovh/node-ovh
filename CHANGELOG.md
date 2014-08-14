@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1
+* Now official Node.js wrapper
+* Rewrite part of the tests, README & documentation
+* Add CONTRIBUTING guidelines
+
 ## 1.0.2
 
 * Fix noAuthenticated calls

@@ -1,29 +1,38 @@
 {
-    "name": "ovh",
-    "version": "1.0.2",
-    "description": "A helper library to use OVH.com REST API (v6)",
-    "homepage": "http://gierschv.github.io/node-ovh",
-    "author": "Vincent Giersch <mail@vincent.sh>",
-    "contributors": [],
-    "keywords": [
-        "OVH", "API", "REST", "APIv6"
-    ],
-    "main": "./ovh.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/gierschv/node-ovh.git"
-    },
-    "bugs": {
-        "url": "https://github.com/gierschv/node-ovh/issues"
-    },
-    "dependencies": {
-        "async"     : "latest"
-    },
-    "devDependencies" : {
-        "jshint"    : "latest",
-        "mocha"     : "latest"
-    },
-    "scripts": {
-        "test": "make no_auth"
-    }
+  "name": "ovh",
+  "version": "1.1.0",
+  "description": "Official Node.js wrapper for the OVH APIs",
+  "homepage": "http://ovh.github.io/node-ovh",
+  "author": "Vincent Giersch <vincent.giersch@ovh.net>",
+  "license": "MIT",
+  "keywords": [
+    "OVH",
+    "RunAbove",
+    "API",
+    "REST",
+    "api.ovh.com"
+  ],
+  "main": "./lib/ovh.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ovh/node-ovh.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ovh/node-ovh/issues"
+  },
+  "dependencies": {
+    "async": "0.9.x"
+  },
+  "devDependencies": {
+    "jshint": "latest",
+    "mocha": "latest",
+    "nock": "latest",
+    "istanbul": "latest"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/jshint lib tests && npm run-script test-cov && npm run-script test-without-proxies",
+    "test-without-proxies": "node node_modules/.bin/mocha -g Proxy -i --reporter spec --ui exports tests/*.js",
+    "test-cov": "node --harmony-proxies ./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --reporter spec --ui exports --check-leaks tests/*.js",
+    "test-integration": "node --harmony-proxies node_modules/mocha/bin/_mocha tests/integration/*.js && node node_modules/.bin/mocha -g Proxy -i --reporter spec --ui exports tests/integration/*.js"
+  }
 }

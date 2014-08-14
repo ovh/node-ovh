@@ -1,37 +1,190 @@
-node-ovh
-========
+[![Node.js Wrapper for OVH APIs](http://ovh.github.io/node-ovh/img/logo.png)](http://ovh.github.io/node-ovh)
 
-[![Build Status](https://secure.travis-ci.org/gierschv/node-ovh.png)](http://travis-ci.org/gierschv/node-ovh)
+The easiest way to use the [OVH.com](http://ovh.com) APIs in your [node.js](http://nodejs.org/) applications.
 
-node-ovh is a Node.js helper library for [OVH REST APIs](https://api.ovh.com).
+[![NPM Version](https://img.shields.io/npm/v/ovh.svg?style=flat)](https://www.npmjs.org/package/express)
+[![Build Status](https://secure.travis-ci.org/ovh/node-ovh.png?style=flat)](http://travis-ci.org/ovh/node-ovh)
+[![Coverage Status](https://img.shields.io/coveralls/ovh/node-ovh.svg?style=flat)](https://coveralls.io/r/ovh/node-ovh?branch=master)
 
-Since the v1.0.0 of this module, the OVH WS are not supported anymore.
-The [branch v0.3](https://github.com/gierschv/node-ovh/tree/v0.3) is still maintained.
+```js
+// Create your first application tokens here: https://api.ovh.com/createToken/?GET=/me
+var ovh = require('ovh')({
+  appKey: process.env.APP_KEY,
+  appSecret: process.env.APP_SECRET,
+  consumerKey: process.env.CONSUMER_KEY
+});
 
-**This library is unofficial and consequently not maintained by OVH.**
-
-Documentation
-------------
-
-The documentation is available online: http://gierschv.github.io/node-ovh
-
-License
--------
-
-node-ovh is freely distributable under the terms of the MIT license.
-
-```
-Copyright (c) 2012 - 2013 Vincent Giersch <mail@vincent.sh>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ovh.request('GET', '/me', function (err, me) {
+  console.log(err || 'Welcome ' + me.firstname);
+});
 ```
 
+## Installation
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/gierschv/node-ovh/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+The easiest way to get the latest stable release is to grab it from the
+[npm registry](https://npmjs.org/package/ovh).
 
+```bash
+$ npm install ovh
+```
+
+Alternatively, you may get latest development version directly from Git.
+
+```bash
+$ npm install git://github.com/ovh/node-ovh.git
+```
+
+## Example Usage
+
+### Login as a user
+
+#### 1. Create an application
+
+Depending the API you plan yo use, you need to create an application on the below
+websites:
+
+* [OVH Europe](https://eu.api.ovh.com/createApp/)
+* [OVH North-America](https://ca.api.ovh.com/createApp/)
+* [RunAbove](https://api.runabove.com/createApp/)
+
+Once created, you will obtain an **application key (AK)** and an **application
+secret (AS)**.
+
+#### 2. Authorize your application to access to a customer account
+
+To allow your application to access to a customer account using an OVH API,
+you need a **consumer key (CK)**.
+
+Here is a sample code you can use to allow your application to access to a
+complete account.
+
+Depending the API you want to use, you need to specify the below API endpoint:
+
+* OVH Europe: ```ovh-eu``` (default)
+* OVH North-America: ```ovh-ca```
+* RunAbove: ```runabove-ca```
+
+```js
+var ovh = require('ovh')({
+  endpoint: 'ovh-eu',
+  appKey: 'YOUR_APP_KEY',
+  appSecret: 'YOUR_APP_SECRET'
+});
+
+ovh.request('POST', '/auth/credential', {
+  'accessRules': [
+    { 'method': 'GET', 'path': '/*'},
+    { 'method': 'POST', 'path': '/*'},
+    { 'method': 'PUT', 'path': '/*'},
+    { 'method': 'DELETE', 'path': '/*'}
+  ]
+}, function (error, credential) {
+  console.log(error || credential);
+});
+```
+
+```bash
+$ node credentials.js
+{ validationUrl: 'https://api.ovh.com/auth/?credentialToken=XXX',
+  consumerKey: 'CK',
+  state: 'pendingValidation' }
+```
+
+This consumer key can be scoped with a **specific authorization**.
+For example if your application will only send SMS: 
+
+```javascript
+ovh.request('POST', '/auth/credential', {
+  'accessRules': [
+    { 'method': 'POST', 'path': '/sms/*/jobs'},
+  ]
+}, function (error, credential) {
+  console.log(error || credential);
+});
+```
+
+Once the consumer key will be authorized on the specified URL,
+you'll be able to play with the API calls allowed by this key. 
+
+#### 3. Let's play!
+
+You are now be able to play with the API. Look at the
+[examples available online](http://ovh.github.io/node-ovh#examples).
+
+You can browse the API schemas using the web consoles of the APIs:
+
+* [OVH Europe](https://eu.api.ovh.com/console/)
+* [OVH North-America](https://ca.api.ovh.com/console/)
+* [RunAbove](https://api.runabove.com/console/)
+
+## Full documentation and examples
+
+The full documentation is available online: http://ovh.github.io/node-ovh.
+
+## Hacking
+
+### Get the sources
+
+```bash
+git clone https://github.com/ovh/node-ovh.git
+cd node-ovh
+```
+
+You've developed a new cool feature ? Fixed an annoying bug ? We'd be happy
+to hear from you !
+
+### Run the tests
+
+Tests are based on [mocha](http://visionmedia.github.io/mocha/).
+This package includes unit and integration tests.
+
+```
+git clone https://github.com/ovh/node-ovh.git
+cd node-ovh
+npm install -d
+npm test
+```
+
+Integration tests use the OVH /domain/zone API, the tokens can be created
+[here](https://api.ovh.com/createToken/).
+
+```
+export APP_KEY=xxxxx
+export APP_SECRET=yyyyy
+export CONSUMER_KEY=zzzzz
+export DOMAIN_ZONE_NAME=example.com
+npm run-script test-integration
+```
+
+### Documentation
+
+The documentation is based on [Github Pages](https://pages.github.com/) and is
+available in the *gh-pages* branch.
+
+
+## Supported APIs
+
+### OVH Europe
+
+- **Documentation**: https://eu.api.ovh.com/
+- **Community support**: api-subscribe@ml.ovh.net
+- **Console**: https://eu.api.ovh.com/console
+- **Create application credentials**: https://eu.api.ovh.com/createApp/
+
+### OVH North America
+
+- **Documentation**: https://ca.api.ovh.com/
+- **Community support**: api-subscribe@ml.ovh.net
+- **Console**: https://ca.api.ovh.com/console
+- **Create application credentials**: https://ca.api.ovh.com/createApp/
+
+### Runabove
+
+- **Console**: https://api.runabove.com/console/
+- **Create application credentials**: https://api.runabove.com/createApp/
+
+### Related links
+
+- **Contribute**: https://github.com/ovh/node-ovh
+- **Report bugs**: https://github.com/ovh/node-ovh/issues
+- **Download**: http://npmjs.org/package/ovh

@@ -1,0 +1,24 @@
+{
+   "resourcePath" : "/auth",
+   "apiVersion" : "1.0",
+   "apis" : [
+      {
+         "_operations" : [
+            {
+               "parameters" : [],
+               "httpMethod" : "GET",
+               "apiStatus" : {
+                  "value" : "PRODUCTION",
+                  "description" : "Stable production version"
+               },
+               "noAuthentication" : 1,
+               "description" : "Get the current time of the OVH servers, since UNIX epoch",
+               "responseType" : "long"
+            }
+         ],
+         "path" : "/auth/time",
+         "description" : "Get the time of OVH servers"
+      }
+   ],
+   "basePath" : "https://api.ovh.com/1.0"
+}

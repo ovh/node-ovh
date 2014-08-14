@@ -1,0 +1,138 @@
+{
+   "models" : {
+      "auth.AccessRule" : {
+         "namespace" : "auth",
+         "id" : "AccessRule",
+         "description" : "Access rule required for the application",
+         "properties" : {
+            "path" : {
+               "canBeNull" : 0,
+               "type" : "string",
+               "description" : null
+            },
+            "method" : {
+               "canBeNull" : 0,
+               "type" : "auth.MethodEnum",
+               "description" : null
+            }
+         }
+      },
+      "auth.MethodEnum" : {
+         "namespace" : "auth",
+         "enum" : [
+            "DELETE",
+            "GET",
+            "POST",
+            "PUT"
+         ],
+         "id" : "MethodEnum",
+         "description" : "All HTTP methods available",
+         "enumType" : "string"
+      },
+      "auth.CredentialStateEnum" : {
+         "namespace" : "auth",
+         "enum" : [
+            "expired",
+            "pendingValidation",
+            "refused",
+            "validated"
+         ],
+         "id" : "CredentialStateEnum",
+         "description" : "All states a Credential can be in",
+         "enumType" : "string"
+      },
+      "auth.Credential" : {
+         "namespace" : "auth",
+         "id" : "Credential",
+         "description" : "Credential request to get access to the API",
+         "properties" : {
+            "validationUrl" : {
+               "canBeNull" : 1,
+               "type" : "string",
+               "description" : null
+            },
+            "consumerKey" : {
+               "canBeNull" : 0,
+               "type" : "string",
+               "description" : null
+            },
+            "state" : {
+               "canBeNull" : 0,
+               "type" : "auth.CredentialStateEnum",
+               "description" : null
+            }
+         }
+      }
+   },
+   "resourcePath" : "/auth",
+   "apiVersion" : "1.0",
+   "apis" : [
+      {
+         "operations" : [
+            {
+               "parameters" : [],
+               "httpMethod" : "GET",
+               "apiStatus" : {
+                  "value" : "PRODUCTION",
+                  "description" : "Stable production version"
+               },
+               "noAuthentication" : 1,
+               "description" : "Get the current time of the OVH servers, since UNIX epoch",
+               "responseType" : "long"
+            }
+         ],
+         "path" : "/auth/time",
+         "description" : "Get the time of OVH servers"
+      },
+      {
+         "operations" : [
+            {
+               "parameters" : [],
+               "httpMethod" : "POST",
+               "apiStatus" : {
+                  "value" : "PRODUCTION",
+                  "description" : "Stable production version"
+               },
+               "noAuthentication" : 0,
+               "description" : "Expire current credential",
+               "responseType" : "void"
+            }
+         ],
+         "path" : "/auth/logout",
+         "description" : "Expire current credential"
+      },
+      {
+         "operations" : [
+            {
+               "parameters" : [
+                  {
+                     "required" : 1,
+                     "dataType" : "auth.AccessRule[]",
+                     "name" : "accessRules",
+                     "paramType" : "body",
+                     "description" : "Access required for your application"
+                  },
+                  {
+                     "required" : 0,
+                     "dataType" : "string",
+                     "name" : "redirection",
+                     "paramType" : "body",
+                     "description" : "Where you want to redirect the user after sucessfull authentication"
+                  }
+               ],
+               "httpMethod" : "POST",
+               "apiStatus" : {
+                  "value" : "PRODUCTION",
+                  "description" : "Stable production version"
+               },
+               "noAuthentication" : 1,
+               "description" : "Request a new credential for your application",
+               "responseType" : "auth.Credential"
+            }
+         ],
+         "path" : "/auth/credential",
+         "description" : "Operations with credentials"
+      }
+   ],
+   "basePath" : "https://api.ovh.com/1.0"
+}

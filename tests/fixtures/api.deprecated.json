@@ -1,0 +1,28 @@
+{
+   "resourcePath" : "/deprecated",
+   "apiVersion" : "1.0",
+   "apis" : [
+      {
+         "operations" : [
+            {
+               "parameters" : [],
+               "httpMethod" : "GET",
+               "apiStatus" : {
+                  "value" : "DEPRECATED",
+                  "deprecatedDate" : "2013-07-03T10:00:00+01:00",
+                  "description" : "Deprecated, will be removed",
+                  "deletionDate" : "2013-08-01T10:00:00+01:00",
+                  "replacement" : "/new/{serviceName}/route"
+               },
+               "noAuthentication" : 0,
+               "description" : "A deprecated method",
+               "responseType" : "string"
+            }
+         ],
+         "path" : "/deprecated/{serviceName}/route",
+         "description" : "A route"
+      }
+    ],
+    "models": {},
+    "basePath" : "https://api.ovh.com/1.0"
+}
