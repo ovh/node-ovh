@@ -4,6 +4,7 @@
 * Now official Node.js wrapper
 * Rewrite part of the tests, README & documentation
 * Add CONTRIBUTING guidelines
+* Add `endpoint` parameter with preconfigured API endpoints.
 
 ## 1.0.2
 

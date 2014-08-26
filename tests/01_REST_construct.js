@@ -79,6 +79,23 @@ exports.REST_construct = {
       assert.equal(message, 401);
       done();
     });
+  },
+  'Preconfigured API endpoints': function () {
+    "use strict";
+
+    var rest = ovh({
+      appKey: 'XXX', appSecret: 'XXX',
+      endpoint: 'runabove-ca'
+    });
+
+    assert.equal(rest.host, 'api.runabove.com');
+    assert.equal(rest.port, 443);
+    assert.equal(rest.basePath, '/1.0');
+
+    assert.throws(
+      function () { ovh({ appKey: 'XXX', appSecret: 'XXX', endpoint: 'eu-ovh' }); },
+      /\[OVH\] Unknown API eu-ovh/
+    );
   }
 };
 
