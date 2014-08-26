@@ -76,22 +76,22 @@
                 <div class="dot">3</div>
                 <div class="content">
                     <h4><span>3.</span> Authorize your application to access to a customer account</h4>
-                    <p>To allow your application to access to a customer account using one OVH API, you need <strong>a consumer key (CK)</strong>.</p>
+                    <p>To allow your application to access to a customer account using an OVH API, you need <strong>a consumer key (CK)</strong>.</p>
                     <p>
                         Here is a sample code you can use to allow your application to access to a complete account.
                     </p>
                     <p>
-                        Depending the API you want to use, you need to specify the associated endpoint:
+                        Depending the API you want to use, you need to specify the below API endpoint:
                         <ul>
-                            <li>OVH Europe: <strong>eu.api.ovh.com</strong> (default)</li>
-                            <li>OVH North-America: <strong>ca.api.ovh.com</strong></li>
-                            <li>RunAbove: <strong>api.runabove.com</strong></li>
+                            <li>OVH Europe: <strong>ovh-eu</strong> (default)</li>
+                            <li>OVH North-America: <strong>ovh-ca</strong></li>
+                            <li>RunAbove: <strong>runabove-ca</strong></li>
                         </ul>
                     </p>
                     <pre><code class="language-javascript">var ovh = require('ovh')({
+  endpoint: 'ovh-eu',
   appKey: 'YOUR_APP_KEY',
-  appSecret: 'YOUR_APP_SECRET',
-  host: 'eu.api.ovh.com'
+  appSecret: 'YOUR_APP_SECRET'
 });
 
 ovh.request('POST', '/auth/credential', {
@@ -156,10 +156,10 @@ ovh.request('POST', '/auth/credential', {
             <p>
                 All the examples have a node-ovh module instantiated as below:
                 <pre><code class="language-javascript">var ovh = require('ovh')({
+  endpoint: 'ovh-eu',
   appKey: APP_KEY,
   appSecret: APP_SECRET,
-  consumerKey: APP_CONSUMER_KEY,
-  host: 'eu.api.ovh.com'
+  consumerKey: APP_CONSUMER_KEY
 });</code></pre>
             </p>
 
