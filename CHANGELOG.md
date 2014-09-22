@@ -22,9 +22,9 @@
 ## 1.0.0
 
 * WS are not supported anymore
-* The usage of the Harmony proxies usage is optionnal
+* The usage of the Harmony proxies usage is optional
 * Callbacks are designed "errors first"
-* Optionnal check of the existance of a method in the APIs schemas and its status (PRODUCTION, DEPRECATED, etc.)
+* Optional check of the existence of a method in the APIs schemas and its status (PRODUCTION, DEPRECATED, etc.)
 * Debug mode
 * New documentation
 
