@@ -5,6 +5,7 @@
 * Rewrite part of the tests, README & documentation
 * Add CONTRIBUTING guidelines
 * Add `endpoint` parameter with preconfigured API endpoints.
+* Discontinue node.js <= 0.9 support
 
 ## 1.0.2
 
