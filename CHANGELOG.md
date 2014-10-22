@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+* Add Kimsufi and SoYouStart APIs
+
 ## 1.1
 * Now official Node.js wrapper
 * Rewrite part of the tests, README & documentation

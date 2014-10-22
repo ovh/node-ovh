@@ -46,6 +46,10 @@ websites:
 * [OVH Europe](https://eu.api.ovh.com/createApp/)
 * [OVH North-America](https://ca.api.ovh.com/createApp/)
 * [RunAbove](https://api.runabove.com/createApp/)
+* [SoYouStart Europe](https://eu.api.soyoustart.com/createApp/)
+* [SoYouStart North-America](https://ca.api.soyoustart.com/createApp/)
+* [Kimsufi Europe](https://eu.api.kimsufi.com/createApp/)
+* [Kimsufi North-America](https://ca.api.kimsufi.com/createApp/)
 
 Once created, you will obtain an **application key (AK)** and an **application
 secret (AS)**.
@@ -63,6 +67,10 @@ Depending the API you want to use, you need to specify the below API endpoint:
 * OVH Europe: ```ovh-eu``` (default)
 * OVH North-America: ```ovh-ca```
 * RunAbove: ```runabove-ca```
+* SoYouStart Europe: ```sys-eu```
+* SoYouStart North-America: ```sys-ca```
+* Kimsufi Europe: ```ks-eu```
+* Kimsufi North-America: ```ks-ca```
 
 ```js
 var ovh = require('ovh')({
@@ -116,6 +124,10 @@ You can browse the API schemas using the web consoles of the APIs:
 * [OVH Europe](https://eu.api.ovh.com/console/)
 * [OVH North-America](https://ca.api.ovh.com/console/)
 * [RunAbove](https://api.runabove.com/console/)
+* [SoYouStart Europe](https://eu.api.soyoustart.com/console/)
+* [SoYouStart North-America](https://ca.api.soyoustart.com/console/)
+* [Kimsufi Europe](https://eu.api.kimsufi.com/console/)
+* [Kimsufi North-America](https://ca.api.kimsufi.com/console/)
 
 ## Full documentation and examples
 
@@ -170,6 +182,7 @@ available in the *gh-pages* branch.
 - **Community support**: api-subscribe@ml.ovh.net
 - **Console**: https://eu.api.ovh.com/console
 - **Create application credentials**: https://eu.api.ovh.com/createApp/
+- **Create script credentials** (all keys at once): https://eu.api.ovh.com/createToken/
 
 ### OVH North America
 
@@ -177,11 +190,45 @@ available in the *gh-pages* branch.
 - **Community support**: api-subscribe@ml.ovh.net
 - **Console**: https://ca.api.ovh.com/console
 - **Create application credentials**: https://ca.api.ovh.com/createApp/
+- **Create script credentials** (all keys at once): https://ca.api.ovh.com/createToken/
 
 ### Runabove
 
 - **Console**: https://api.runabove.com/console/
 - **Create application credentials**: https://api.runabove.com/createApp/
+
+
+### SoYouStart Europe
+
+- **Documentation**: https://eu.api.soyoustart.com/
+- **Community support**: api-subscribe@ml.ovh.net
+- **Console**: https://eu.api.soyoustart.com/console/
+- **Create application credentials**: https://eu.api.soyoustart.com/createApp/
+- **Create script credentials** (all keys at once): https://eu.api.soyoustart.com/createToken/
+
+### SoYouStart North America
+
+- **Documentation**: https://ca.api.soyoustart.com/
+- **Community support**: api-subscribe@ml.ovh.net
+- **Console**: https://ca.api.soyoustart.com/console/
+- **Create application credentials**: https://ca.api.soyoustart.com/createApp/
+- **Create script credentials** (all keys at once): https://ca.api.soyoustart.com/createToken/
+
+#### Kimsufi Europe
+
+- **Documentation**: https://eu.api.kimsufi.com/
+- **Community support**: api-subscribe@ml.ovh.net
+- **Console**: https://eu.api.kimsufi.com/console/
+- **Create application credentials**: https://eu.api.kimsufi.com/createApp/
+- **Create script credentials** (all keys at once): https://eu.api.kimsufi.com/createToken/
+
+#### Kimsufi North America
+
+- **Documentation**: https://ca.api.kimsufi.com/
+- **Community support**: api-subscribe@ml.ovh.net
+- **Console**: https://ca.api.kimsufi.com/console/
+- **Create application credentials**: https://ca.api.kimsufi.com/createApp/
+- **Create script credentials** (all keys at once): https://ca.api.kimsufi.com/createToken/
 
 ### Related links
 
