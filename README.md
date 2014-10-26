@@ -214,7 +214,7 @@ available in the *gh-pages* branch.
 - **Create application credentials**: https://ca.api.soyoustart.com/createApp/
 - **Create script credentials** (all keys at once): https://ca.api.soyoustart.com/createToken/
 
-#### Kimsufi Europe
+### Kimsufi Europe
 
 - **Documentation**: https://eu.api.kimsufi.com/
 - **Community support**: api-subscribe@ml.ovh.net
@@ -222,7 +222,7 @@ available in the *gh-pages* branch.
 - **Create application credentials**: https://eu.api.kimsufi.com/createApp/
 - **Create script credentials** (all keys at once): https://eu.api.kimsufi.com/createToken/
 
-#### Kimsufi North America
+### Kimsufi North America
 
 - **Documentation**: https://ca.api.kimsufi.com/
 - **Community support**: api-subscribe@ml.ovh.net
@@ -230,7 +230,7 @@ available in the *gh-pages* branch.
 - **Create application credentials**: https://ca.api.kimsufi.com/createApp/
 - **Create script credentials** (all keys at once): https://ca.api.kimsufi.com/createToken/
 
-### Related links
+## Related links
 
 - **Contribute**: https://github.com/ovh/node-ovh
 - **Report bugs**: https://github.com/ovh/node-ovh/issues
