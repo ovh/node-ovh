@@ -2,7 +2,7 @@
 
 The easiest way to use the [OVH.com](http://ovh.com) APIs in your [node.js](http://nodejs.org/) applications.
 
-[![NPM Version](https://img.shields.io/npm/v/ovh.svg?style=flat)](https://www.npmjs.org/package/express)
+[![NPM Version](https://img.shields.io/npm/v/ovh.svg?style=flat)](https://www.npmjs.org/package/ovh)
 [![Build Status](https://img.shields.io/travis/ovh/node-ovh.svg?style=flat)](http://travis-ci.org/ovh/node-ovh)
 [![Coverage Status](https://img.shields.io/coveralls/ovh/node-ovh.svg?style=flat)](https://coveralls.io/r/ovh/node-ovh?branch=master)
 
