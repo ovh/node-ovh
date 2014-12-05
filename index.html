@@ -90,10 +90,10 @@
                             <li>OVH Europe: <strong>ovh-eu</strong> (default)</li>
                             <li>OVH North-America: <strong>ovh-ca</strong></li>
                             <li>RunAbove: <strong>runabove-ca</strong></li>
-                            <li>SoYouStart Europe: <strong>sys-eu</strong></li>
-                            <li>SoYouStart North-America: <strong>sys-ca</strong></li>
-                            <li>Kimsufi Europe: <strong>ks-eu</strong></li>
-                            <li>Kimsufi North-America: <strong>ks-ca</strong></li>
+                            <li>SoYouStart Europe: <strong>soyoustart-eu</strong></li>
+                            <li>SoYouStart North-America: <strong>soyoustart-ca</strong></li>
+                            <li>Kimsufi Europe: <strong>kimsufi-eu</strong></li>
+                            <li>Kimsufi North-America: <strong>kimsufi-ca</strong></li>
                         </ul>
                     </p>
                     <pre><code class="language-javascript">var ovh = require('ovh')({
@@ -132,7 +132,7 @@ ovh.request('POST', '/auth/credential', {
                     </p>
 
                     <p>
-                        Once the consumer key will be authorized on the specified URL, 
+                        Once the consumer key will be authorized on the specified URL,
                         you'll be able to play with the API calls allowed by this key.
                     </p>
                 </div>
@@ -349,7 +349,7 @@ ovh.domains.$get(function (err, domains) {});
 </code></pre>
 
                     <pre><code class="language-bash">$ node --harmony-proxies domains.js
-[OVH] API call: GET /1.0/domains 
+[OVH] API call: GET /1.0/domains
 [OVH] API response to GET /1.0/domains : ["foo.com", "bar.fr"]
 </code></pre>
                 </div>
