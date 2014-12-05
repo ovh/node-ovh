@@ -85,10 +85,19 @@ exports.REST_construct = {
 
     var rest = ovh({
       appKey: 'XXX', appSecret: 'XXX',
-      endpoint: 'runabove-ca'
+      endpoint: 'sys-ca'
     });
 
-    assert.equal(rest.host, 'api.runabove.com');
+    assert.equal(rest.host, 'ca.api.soyoustart.com');
+    assert.equal(rest.port, 443);
+    assert.equal(rest.basePath, '/1.0');
+
+    rest = ovh({
+      appKey: 'XXX', appSecret: 'XXX',
+      endpoint: 'soyoustart-ca'
+    });
+
+    assert.equal(rest.host, 'ca.api.soyoustart.com');
     assert.equal(rest.port, 443);
     assert.equal(rest.basePath, '/1.0');
 
@@ -98,4 +107,3 @@ exports.REST_construct = {
     );
   }
 };
-

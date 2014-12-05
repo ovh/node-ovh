@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2
+
+* Add aliases soyoustart-eu, soyoustart-ca, kimsufi-eu, kimsufi-ca to sys-eu, sys-ca, ks-eu and ks-ca.
+
 ## 1.1.1
 
 * Add Kimsufi and SoYouStart APIs

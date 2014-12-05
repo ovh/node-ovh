@@ -67,10 +67,10 @@ Depending the API you want to use, you need to specify the below API endpoint:
 * OVH Europe: ```ovh-eu``` (default)
 * OVH North-America: ```ovh-ca```
 * RunAbove: ```runabove-ca```
-* SoYouStart Europe: ```sys-eu```
-* SoYouStart North-America: ```sys-ca```
-* Kimsufi Europe: ```ks-eu```
-* Kimsufi North-America: ```ks-ca```
+* SoYouStart Europe: ```soyoustart-eu```
+* SoYouStart North-America: ```soyoustart-ca```
+* Kimsufi Europe: ```kimsufi-eu```
+* Kimsufi North-America: ```kimsufi-ca```
 
 ```js
 var ovh = require('ovh')({
@@ -99,7 +99,7 @@ $ node credentials.js
 ```
 
 This consumer key can be scoped with a **specific authorization**.
-For example if your application will only send SMS: 
+For example if your application will only send SMS:
 
 ```javascript
 ovh.request('POST', '/auth/credential', {
@@ -112,7 +112,7 @@ ovh.request('POST', '/auth/credential', {
 ```
 
 Once the consumer key will be authorized on the specified URL,
-you'll be able to play with the API calls allowed by this key. 
+you'll be able to play with the API calls allowed by this key.
 
 #### 3. Let's play!
 
