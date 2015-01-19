@@ -254,6 +254,27 @@ exports.REST_me = {
       assert.equal(message, 'This credential is not valid');
       done();
     });
+  },
+  'DELETE /todelete - 0 bytes JSON body': function (done) {
+    'use strict';
+
+    nock('https://eu.api.ovh.com')
+     .intercept('/1.0/auth/time', 'GET')
+       .reply(200, Math.round(Date.now() / 1000))
+     .intercept('/1.0/todelete', 'DELETE')
+       .reply(200, '');
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET,
+      consumerKey: CONSUMER_KEY
+    });
+
+    rest.request('DELETE', '/todelete', function (err, message) {
+      assert.ok(!err);
+      assert.equal(message, null);
+      done();
+    });
   }
 };
 

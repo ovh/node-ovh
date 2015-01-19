@@ -72,11 +72,12 @@ exports.REST_construct = {
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/me', 'GET')
-        .reply(401);
+        .reply(401, {'message': 'You must login first'});
 
     var rest = ovh({ appKey: 'XXX', appSecret: 'XXX', apis: [] });
     rest.request('GET', '/me', function (err, message) {
-      assert.equal(message, 401);
+      assert.equal(err, 401);
+      assert.equal(message, 'You must login first');
       done();
     });
   },
