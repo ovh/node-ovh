@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3
+
+* Support zero-byte JSON HTTP bodies (#2)
+
 ## 1.1.2
 
 * Add aliases soyoustart-eu, soyoustart-ca, kimsufi-eu, kimsufi-ca to sys-eu, sys-ca, ks-eu and ks-ca.
