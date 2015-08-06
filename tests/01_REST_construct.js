@@ -75,9 +75,8 @@ exports.REST_construct = {
         .reply(401, {'message': 'You must login first'});
 
     var rest = ovh({ appKey: 'XXX', appSecret: 'XXX', apis: [] });
-    rest.request('GET', '/me', function (err, message) {
-      assert.equal(err, 401);
-      assert.equal(message, 'You must login first');
+    rest.request('GET', '/me', function (err) {
+      assert.equal(err.message, '401 You must login first');
       done();
     });
   },

@@ -82,9 +82,8 @@ exports.REST_me = {
 
     rest.request('PUT', '/me', {
       'city': 'Roubaix Valley'
-    }, function (statusCode, message) {
-      assert.equal(statusCode, 403);
-      assert.equal(message, 'This credential is not valid');
+    }, function (err) {
+      assert.equal(err.message, '403 This credential is not valid');
       done();
     });
   },
@@ -249,9 +248,8 @@ exports.REST_me = {
     rest.request('PUT', '/me', {
       'city': 'Roubaix Valley',
       'firstname': undefined
-    }, function (statusCode, message) {
-      assert.equal(statusCode, 403);
-      assert.equal(message, 'This credential is not valid');
+    }, function (err) {
+      assert.equal(err.message, '403 This credential is not valid');
       done();
     });
   },
