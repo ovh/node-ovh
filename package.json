@@ -31,8 +31,11 @@
   },
   "scripts": {
     "test": "node_modules/.bin/jshint lib tests && npm run-script test-cov && npm run-script test-without-proxies",
+    "test-watch": "node_modules/.bin/jshint lib tests && npm run-script test-cov-watch && npm run-script test-without-proxies-watch",
     "test-without-proxies": "node node_modules/.bin/mocha -g Proxy -i --reporter spec --ui exports tests/*.js",
+    "test-without-proxies-watch": "node node_modules/.bin/mocha -w -g Proxy -i --reporter spec --ui exports tests/*.js",
     "test-cov": "node --harmony-proxies ./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --reporter spec --ui exports --check-leaks tests/*.js",
+    "test-cov-watch": "node --harmony-proxies ./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -w -- --reporter spec --ui exports --check-leaks tests/*.js",
     "test-integration": "node --harmony-proxies node_modules/mocha/bin/_mocha tests/integration/*.js && node node_modules/.bin/mocha -g Proxy -i --reporter spec --ui exports tests/integration/*.js"
   }
 }
