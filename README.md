@@ -19,6 +19,17 @@ ovh.request('GET', '/me', function (err, me) {
 });
 ```
 
+You can also use the promised version like this:
+```js
+ovh.requestPromised('GET', '/me')
+  .then(function (response) {
+    //Do what you want
+  })
+  .catch(function (err) {
+    //Return an error object like this {error: statusCode, message: message}
+  });
+```
+
 ## Installation
 
 The easiest way to get the latest stable release is to grab it from the
