@@ -52,6 +52,23 @@ exports.REST_call = {
       done();
     });
   },
+  'GET /auth/time [promised] - ovh.request()': function (done) {
+    "use strict";
+
+    nock('https://eu.api.ovh.com')
+     .intercept('/1.0/auth/time', 'GET')
+       .reply(200, Math.round(Date.now() / 1000));
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET
+    });
+
+    rest.requestPromised('GET', '/auth/time', {})
+      .then((result) => assert.ok(typeof(result) === 'number'))
+      .catch((err) => assert.ok(!err))
+      .finally(done);
+  },
   'GET /auth/credential - ovh.request()': function (done) {
     "use strict";
 
@@ -82,6 +99,37 @@ exports.REST_call = {
       assert.ok(!err && credential.state === 'pendingValidation');
       done();
     });
+  },
+  'GET /auth/credential [promised] - ovh.request()': function (done) {
+    "use strict";
+
+    nock('https://eu.api.ovh.com')
+     .intercept('/1.0/auth/time', 'GET')
+       .reply(200, Math.round(Date.now() / 1000))
+     .intercept('/1.0/auth/credential', 'POST')
+       .reply(200, {
+         'validationUrl': 'http://eu.api.ovh.com',
+         'consumerKey': '84',
+         'state': 'pendingValidation'
+       });
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET
+    });
+
+    rest.requestPromised('POST', '/auth/credential', {
+      'accessRules': [
+        { 'method': 'GET', 'path': '/*'},
+        { 'method': 'POST', 'path': '/*'},
+        { 'method': 'PUT', 'path': '/*'},
+        { 'method': 'DELETE', 'path': '/*'}
+      ],
+      'redirection': 'https://npmjs.org/package/ovh'
+    })
+    .then((credential) => assert.ok(credential && credential.state === 'pendingValidation'))
+    .catch((err) => assert.ok(!err))
+    .finally(done);
   }
 };
 

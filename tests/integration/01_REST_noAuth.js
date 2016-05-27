@@ -49,5 +49,19 @@ exports.REST_call = {
       assert.ok(result.indexOf('Missing') > -1);
       done();
     });
+  },
+  '[AUTH] POST /newAccount - test noAuthentication method [promised]': function (done) {
+    "use strict";
+
+    var rest = ovh({
+      appKey: process.env.APP_KEY,
+      appSecret: process.env.APP_SECRET
+    });
+
+    rest.requestPromised('POST', '/newAccount', {
+      email: 'h@ovh.fr',
+    })
+    .then((result) => assert.ok(result.indexOf('Missing') > -1))
+    .finally(done);
   }
 };

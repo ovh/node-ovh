@@ -50,5 +50,14 @@ exports.REST_sms = {
       assert.equal(err, 401);
       done();
     });
+  },
+  'POST /sms/{serviceName}/job [promised]': function (done) {
+    'use strict';
+
+    var rest = ovh(apiKeys);
+    rest.request('POST', '/sms/foo/jobs', {'message': 'tèsté'})
+      .then((msg) => assert.ok(!msg))
+      .catch((err) => assert.equal(err.error, 401))
+      .finally(done);
   }
 };

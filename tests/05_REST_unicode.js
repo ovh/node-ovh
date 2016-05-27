@@ -55,5 +55,22 @@ exports.REST_sms = {
       assert.ok(!err);
       done();
     });
+  },
+  'POST /sms/{serviceName}/job [promised]': function (done) {
+    'use strict';
+
+    nock('https://eu.api.ovh.com')
+     .intercept('/1.0/auth/time', 'GET')
+       .reply(200, Math.round(Date.now() / 1000))
+     .intercept('/1.0/sms/foo/jobs', 'POST')
+       .reply(200, function (uri, requestBody) {
+         assert.equal(requestBody.message, "tèsté");
+         return {};
+       });
+
+    var rest = ovh(apiKeys);
+    rest.requestPromised('POST', '/sms/foo/jobs', {'message': 'tèsté'})
+      .catch((err) => assert.ok(!err))
+      .finally(done);
   }
 };

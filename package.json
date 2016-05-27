@@ -21,7 +21,8 @@
     "url": "https://github.com/ovh/node-ovh/issues"
   },
   "dependencies": {
-    "async": "0.9.x"
+    "async": "0.9.x",
+    "bluebird": "^3.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
