@@ -59,8 +59,12 @@ exports.REST_domain = {
 
     var rest = ovh(apiKeys);
     rest.requestPromised('GET', '/domain/zone')
-      .then((zones) => assert.ok(zones.length >= 1))
-      .catch((err) => assert.ok(!err))
+      .then(function (zones) {
+        assert.ok(zones.length >= 1);
+      })
+      .catch(function (err) {
+        assert.ok(!err);
+      })
       .finally(done);
   }
 };

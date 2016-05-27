@@ -56,8 +56,12 @@ exports.REST_sms = {
 
     var rest = ovh(apiKeys);
     rest.request('POST', '/sms/foo/jobs', {'message': 'tèsté'})
-      .then((msg) => assert.ok(!msg))
-      .catch((err) => assert.equal(err.error, 401))
+      .then(function (msg) {
+        assert.ok(!msg);
+      })
+      .catch(function (err) {
+        assert.equal(err.error, 401);
+      })
       .finally(done);
   }
 };

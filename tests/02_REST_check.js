@@ -100,8 +100,12 @@ exports.REST_check = {
     });
 
     rest.requestPromised('GET', '/deprecated/my-service/route')
-      .then((resp) => assert.ok(!resp))
-      .catch((err) => assert.ok(err));
+      .then(function (resp) {
+        assert.ok(!resp);
+      })
+      .catch(function (err) {
+        assert.ok(err);
+      });
   },
   'Check call not found warning': function (done) {
     'use strict';
@@ -150,8 +154,12 @@ exports.REST_check = {
     });
 
     rest.requestPromised('GET', '/auth/not-found')
-      .then((resp) => assert.ok(!resp))
-      .catch((err) => assert.ok(err));
+      .then(function (resp) {
+        assert.ok(!resp);
+       })
+      .catch(function (err) {
+        assert.ok(err);
+      });
   },
   'Check api not found warning': function (done) {
     'use strict';
@@ -206,8 +214,12 @@ exports.REST_check = {
     });
 
     rest.requestPromised('GET', '/auth')
-      .then((resp) => assert.ok(!resp))
-      .catch((err) => assert.ok(err));
+      .then(function (resp) {
+        assert.ok(!resp);
+      })
+      .catch(function (err) {
+        assert.ok(err);
+      });
   },
   'Check HTTP method not found warning': function (done) {
     'use strict';
@@ -260,8 +272,12 @@ exports.REST_check = {
     });
 
     rest.requestPromised('OVH', '/me')
-      .then((resp) => assert.ok(!resp))
-      .catch((err) => assert.ok(err));
+      .then(function (resp) {
+        assert.ok(!resp);
+      })
+      .catch(function (err) {
+        assert.ok(err);
+      });
   },
   'Call method without CK': function (done) {
     'use strict';
@@ -314,8 +330,12 @@ exports.REST_check = {
     });
 
     rest.requestPromised('GET', '/me')
-      .then((resp) => assert.ok(!resp))
-      .catch((err) => assert.ok(err));
+      .then(function (resp) {
+        assert.ok(!resp);
+      })
+      .catch(function (err) {
+        assert.ok(err);
+      });
   },
   'Unable to load schema': function (done) {
     'use strict';
@@ -357,8 +377,12 @@ exports.REST_check = {
     });
 
     rest.requestPromised('GET', '/me')
-      .then((resp) => assert.ok(!resp))
-      .catch((err) => assert.equal(err.error, '[OVH] Unable to load schema /1.0/meh.json, HTTP response code: 404'))
+      .then(function (resp) {
+        assert.ok(!resp);
+      })
+      .catch(function (err) {
+        assert.equal(err.error, '[OVH] Unable to load schema /1.0/meh.json, HTTP response code: 404');
+      })
       .finally(done);
   },
   'Unable to parse schema': function (done) {
@@ -401,8 +425,12 @@ exports.REST_check = {
     });
 
     rest.requestPromised('GET', '/me')
-      .then((resp) => assert.ok(!resp))
-      .catch((err) => assert.equal(err.error, '[OVH] Unable to parse the schema: /1.0/me.json'))
+      .then(function (resp) {
+        assert.ok(!resp);
+      })
+      .catch(function (err) {
+        assert.equal(err.error, '[OVH] Unable to parse the schema: /1.0/me.json');
+      })
       .finally(done);
   },
   'Unable to fetch time': function (done) {
@@ -439,8 +467,12 @@ exports.REST_check = {
     });
 
     rest.requestPromised('GET', '/me')
-      .then((resp) => assert.ok(!resp))
-      .catch((err) => assert.equal(err.error, '[OVH] Unable to fetch OVH API time'))
+      .then(function (resp) {
+        assert.ok(!resp);
+      })
+      .catch(function (err) {
+        assert.equal(err.error, '[OVH] Unable to fetch OVH API time');
+      })
       .finally(done);
   }
 };

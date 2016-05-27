@@ -81,7 +81,9 @@ exports.REST_me = {
     rest.requestPromised('PUT', '/me', {
       'city': 'Roubaix Valley'
     })
-    .catch((err) => assert.ok(!err))
+    .catch(function (err) {
+      assert.ok(!err);
+    })
     .finally(done);
   },
   'PUT /me - ovh.request() - 403 [promised]': function (done) {
@@ -106,8 +108,10 @@ exports.REST_me = {
     rest.requestPromised('PUT', '/me', {
       'city': 'Roubaix Valley'
     })
-    .then((resp) => assert.ok(!resp))
-    .catch((err) => {
+    .then(function (resp) {
+      assert.ok(!resp);
+    })
+    .catch(function (err) {
       assert.equal(err.error, 403);
       assert.equal(err.message, 'This credential is not valid');
     })
@@ -153,7 +157,9 @@ exports.REST_me = {
     rest.requestPromised('GET', '/me/agreements/{id}', {
       'id': 42
     })
-    .catch((err) => assert.ok(!err))
+    .catch(function (err) {
+      assert.ok(!err);
+    })
     .finally(done);
   },
   'GET /me/agreements - Filtering': function (done) {
@@ -207,8 +213,12 @@ exports.REST_me = {
     rest.requestPromised('GET', '/me/agreement', {
       'agreed': 'ok'
     })
-    .then((agreements) => assert.equal(agreements.length, 0))
-    .catch((err) => assert.ok(!err))
+    .then(function (agreements) {
+      assert.equal(agreements.length, 0);
+    })
+    .catch(function (err) {
+      assert.ok(!err);
+    })
     .finally(done);
   },
   'PUT /me - Remove undefined': function (done) {
@@ -262,8 +272,10 @@ exports.REST_me = {
       'city': 'Roubaix Valley',
       'firstname': undefined
     })
-    .then((resp) => assert.ok(!resp))
-    .catch((err) => {
+    .then(function (resp) {
+      assert.ok(!resp);
+    })
+    .catch(function (err) {
       assert.equal(err.error, 403);
       assert.equal(err.message, 'This credential is not valid');
     })
@@ -306,8 +318,12 @@ exports.REST_me = {
     });
 
     rest.requestPromised('DELETE', '/todelete')
-      .then((resp) => assert.equal(resp, null))
-      .catch((err) => assert.ok(!err))
+      .then(function (resp) {
+        assert.equal(resp, null);
+      })
+      .catch(function (err) {
+        assert.ok(!err);
+      })
       .finally(done);
   }
 };

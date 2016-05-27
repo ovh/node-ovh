@@ -70,7 +70,9 @@ exports.REST_sms = {
 
     var rest = ovh(apiKeys);
     rest.requestPromised('POST', '/sms/foo/jobs', {'message': 'tèsté'})
-      .catch((err) => assert.ok(!err))
+      .catch(function (err) {
+        assert.ok(!err);
+      })
       .finally(done);
   }
 };

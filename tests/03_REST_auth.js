@@ -65,8 +65,12 @@ exports.REST_call = {
     });
 
     rest.requestPromised('GET', '/auth/time', {})
-      .then((result) => assert.ok(typeof(result) === 'number'))
-      .catch((err) => assert.ok(!err))
+      .then(function (result) {
+        assert.ok(typeof(result) === 'number');
+      })
+      .catch(function (err) {
+        assert.ok(!err);
+      })
       .finally(done);
   },
   'GET /auth/credential - ovh.request()': function (done) {
@@ -127,8 +131,12 @@ exports.REST_call = {
       ],
       'redirection': 'https://npmjs.org/package/ovh'
     })
-    .then((credential) => assert.ok(credential && credential.state === 'pendingValidation'))
-    .catch((err) => assert.ok(!err))
+    .then(function (credential) {
+      assert.ok(credential && credential.state === 'pendingValidation');
+    })
+    .catch(function (err) {
+      assert.ok(!err);
+    })
     .finally(done);
   }
 };

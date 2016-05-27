@@ -61,7 +61,9 @@ exports.REST_call = {
     rest.requestPromised('POST', '/newAccount', {
       email: 'h@ovh.fr',
     })
-    .then((result) => assert.ok(result.indexOf('Missing') > -1))
+    .then(function (result) {
+      assert.ok(result.indexOf('Missing') > -1);
+    })
     .finally(done);
   }
 };
