@@ -17,4 +17,5 @@ node_js:
   - "5.8"
   - "5.9"
   - "5"
+  - "6"
 after_script: 'npm install coveralls && cat ./coverage/lcov.info | node_modules/.bin/coveralls'

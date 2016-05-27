@@ -52,23 +52,6 @@ exports.REST_call = {
       done();
     });
   },
-  '[Proxy] GET /auth/time - [object].$get()': function (done) {
-    "use strict";
-
-    nock('https://eu.api.ovh.com')
-     .intercept('/1.0/auth/time', 'GET')
-       .reply(200, Math.round(Date.now() / 1000));
-
-    var rest = ovh({
-      appKey: APP_KEY,
-      appSecret: APP_SECRET
-    });
-
-    rest.auth.time.$get(function (err, result) {
-      assert.ok(!err && typeof(result) === 'number');
-      done();
-    });
-  },
   'GET /auth/credential - ovh.request()': function (done) {
     "use strict";
 
@@ -88,37 +71,6 @@ exports.REST_call = {
     });
 
     rest.request('POST', '/auth/credential', {
-      'accessRules': [
-        { 'method': 'GET', 'path': '/*'},
-        { 'method': 'POST', 'path': '/*'},
-        { 'method': 'PUT', 'path': '/*'},
-        { 'method': 'DELETE', 'path': '/*'}
-      ],
-      'redirection': 'https://npmjs.org/package/ovh'
-    }, function (err, credential) {
-      assert.ok(!err && credential.state === 'pendingValidation');
-      done();
-    });
-  },
-  '[Proxy] GET /auth/credential - [object].$post()': function (done) {
-    "use strict";
-
-    nock('https://eu.api.ovh.com')
-     .intercept('/1.0/auth/time', 'GET')
-       .reply(200, Math.round(Date.now() / 1000))
-     .intercept('/1.0/auth/credential', 'POST')
-       .reply(200, {
-         'validationUrl': 'http://eu.api.ovh.com',
-         'consumerKey': '84',
-         'state': 'pendingValidation'
-       });
-
-    var rest = ovh({
-      appKey: APP_KEY,
-      appSecret: APP_SECRET
-    });
-
-    rest.auth.credential.$post({
       'accessRules': [
         { 'method': 'GET', 'path': '/*'},
         { 'method': 'POST', 'path': '/*'},

@@ -88,49 +88,6 @@ exports.REST_me = {
       done();
     });
   },
-  '[Proxy] PUT /me - [object].$put()': function (done) {
-    'use strict';
-
-    nock('https://eu.api.ovh.com')
-     .intercept('/1.0/auth/time', 'GET')
-       .reply(200, Math.round(Date.now() / 1000))
-     .intercept('/1.0/me', 'GET')
-       .reply(200, {
-         'firstname': 'Vincent',
-         'city': 'Roubaix'
-       })
-     .intercept('/1.0/me', 'PUT')
-       .reply(200, {
-         'firstname': 'Vincent',
-         'city': 'Roubaix Valley'
-       });
-
-    var rest = ovh({
-      appKey: APP_KEY,
-      appSecret: APP_SECRET,
-      consumerKey: CONSUMER_KEY
-    });
-
-    rest.me.$get(function(err, me) {
-      assert.ok(!err);
-
-      // Returned value
-      assert.equal(me.firstname, 'Vincent');
-      assert.equal(me.city, 'Roubaix');
-
-      // Should have access to rest
-      assert.equal(this.host, 'eu.api.ovh.com');
-
-      // Should modify value
-      me.city = 'Roubaix Valley';
-      this.$put(function (err, me) {
-        assert.ok(!err);
-        assert.equal(me.firstname, 'Vincent');
-        assert.equal(me.city, 'Roubaix Valley');
-        done();
-      });
-    });
-  },
   'GET /me/aggreements/{id} - Variable replacement': function (done) {
     'use strict';
 
@@ -179,52 +136,6 @@ exports.REST_me = {
       assert.ok(!err);
       assert.equal(agreements.length, 0);
       done();
-    });
-  },
-  '[Proxy] GET /list - List': function (done) {
-    'use strict';
-
-    nock('https://eu.api.ovh.com')
-     .intercept('/1.0/auth/time', 'GET')
-       .reply(200, Math.round(Date.now() / 1000))
-     .intercept('/1.0/list', 'GET')
-       .reply(200, [42, 43])
-     .intercept('/1.0/list/42', 'GET')
-       .reply(200, { name: 42 })
-     .intercept('/1.0/list/43', 'GET')
-       .reply(200, { name: 43 });
-
-    var rest = ovh({
-      appKey: APP_KEY,
-      appSecret: APP_SECRET,
-      consumerKey: CONSUMER_KEY,
-      debug: function (message) {
-        assert.ok(message);
-      }
-    });
-
-    rest.list.$get(function (err, list) {
-      assert.ok(!err);
-      assert.equal(list.length, 2);
-
-      async.each(
-        list,
-        function (oid, callback) {
-          async.waterfall([
-            function (callback) {
-              this[oid].$get(callback);
-            }.bind(this),
-            function (object, callback) {
-              assert.equal(object.name, oid);
-              callback();
-            }
-          ], callback);
-        }.bind(this),
-        function (err) {
-          assert.ok(!err);
-          done();
-        }
-      );
     });
   },
   'PUT /me - Remove undefined': function (done) {
