@@ -52,7 +52,7 @@ exports.REST_call = {
       done();
     });
   },
-  '[Proxy] GET /auth/time - [object].$get()': function (done) {
+  'GET /auth/time [promised] - ovh.request()': function (done) {
     "use strict";
 
     nock('https://eu.api.ovh.com')
@@ -64,10 +64,14 @@ exports.REST_call = {
       appSecret: APP_SECRET
     });
 
-    rest.auth.time.$get(function (err, result) {
-      assert.ok(!err && typeof(result) === 'number');
-      done();
-    });
+    rest.requestPromised('GET', '/auth/time', {})
+      .then(function (result) {
+        assert.ok(typeof(result) === 'number');
+      })
+      .catch(function (err) {
+        assert.ok(!err);
+      })
+      .finally(done);
   },
   'GET /auth/credential - ovh.request()': function (done) {
     "use strict";
@@ -100,7 +104,7 @@ exports.REST_call = {
       done();
     });
   },
-  '[Proxy] GET /auth/credential - [object].$post()': function (done) {
+  'GET /auth/credential [promised] - ovh.request()': function (done) {
     "use strict";
 
     nock('https://eu.api.ovh.com')
@@ -118,7 +122,7 @@ exports.REST_call = {
       appSecret: APP_SECRET
     });
 
-    rest.auth.credential.$post({
+    rest.requestPromised('POST', '/auth/credential', {
       'accessRules': [
         { 'method': 'GET', 'path': '/*'},
         { 'method': 'POST', 'path': '/*'},
@@ -126,10 +130,14 @@ exports.REST_call = {
         { 'method': 'DELETE', 'path': '/*'}
       ],
       'redirection': 'https://npmjs.org/package/ovh'
-    }, function (err, credential) {
-      assert.ok(!err && credential.state === 'pendingValidation');
-      done();
-    });
+    })
+    .then(function (credential) {
+      assert.ok(credential && credential.state === 'pendingValidation');
+    })
+    .catch(function (err) {
+      assert.ok(!err);
+    })
+    .finally(done);
   }
 };
 

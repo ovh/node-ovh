@@ -61,7 +61,32 @@ exports.REST_me = {
       done();
     });
   },
-  'PUT /me - ovh.request() - 403': function (done) {
+  'PUT /me - ovh.request() [promised]': function (done) {
+    'use strict';
+
+    nock('https://eu.api.ovh.com')
+     .intercept('/1.0/auth/time', 'GET')
+       .reply(200, Math.round(Date.now() / 1000))
+     .intercept('/1.0/me', 'PUT')
+       .reply(200, {
+          'city': 'Roubaix Valley'
+       });
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET,
+      consumerKey: CONSUMER_KEY
+    });
+
+    rest.requestPromised('PUT', '/me', {
+      'city': 'Roubaix Valley'
+    })
+    .catch(function (err) {
+      assert.ok(!err);
+    })
+    .finally(done);
+  },
+  'PUT /me - ovh.request() - 403 [promised]': function (done) {
     'use strict';
 
     nock('https://eu.api.ovh.com')
@@ -80,56 +105,17 @@ exports.REST_me = {
       consumerKey: CONSUMER_KEY
     });
 
-    rest.request('PUT', '/me', {
+    rest.requestPromised('PUT', '/me', {
       'city': 'Roubaix Valley'
-    }, function (statusCode, message) {
-      assert.equal(statusCode, 403);
-      assert.equal(message, 'This credential is not valid');
-      done();
-    });
-  },
-  '[Proxy] PUT /me - [object].$put()': function (done) {
-    'use strict';
-
-    nock('https://eu.api.ovh.com')
-     .intercept('/1.0/auth/time', 'GET')
-       .reply(200, Math.round(Date.now() / 1000))
-     .intercept('/1.0/me', 'GET')
-       .reply(200, {
-         'firstname': 'Vincent',
-         'city': 'Roubaix'
-       })
-     .intercept('/1.0/me', 'PUT')
-       .reply(200, {
-         'firstname': 'Vincent',
-         'city': 'Roubaix Valley'
-       });
-
-    var rest = ovh({
-      appKey: APP_KEY,
-      appSecret: APP_SECRET,
-      consumerKey: CONSUMER_KEY
-    });
-
-    rest.me.$get(function(err, me) {
-      assert.ok(!err);
-
-      // Returned value
-      assert.equal(me.firstname, 'Vincent');
-      assert.equal(me.city, 'Roubaix');
-
-      // Should have access to rest
-      assert.equal(this.host, 'eu.api.ovh.com');
-
-      // Should modify value
-      me.city = 'Roubaix Valley';
-      this.$put(function (err, me) {
-        assert.ok(!err);
-        assert.equal(me.firstname, 'Vincent');
-        assert.equal(me.city, 'Roubaix Valley');
-        done();
-      });
-    });
+    })
+    .then(function (resp) {
+      assert.ok(!resp);
+    })
+    .catch(function (err) {
+      assert.equal(err.error, 403);
+      assert.equal(err.message, 'This credential is not valid');
+    })
+    .finally(done);
   },
   'GET /me/aggreements/{id} - Variable replacement': function (done) {
     'use strict';
@@ -152,6 +138,29 @@ exports.REST_me = {
       assert.ok(!err);
       done();
     });
+  },
+  'GET /me/aggreements/{id} - Variable replacement [promised]': function (done) {
+    'use strict';
+
+    nock('https://eu.api.ovh.com')
+     .intercept('/1.0/auth/time', 'GET')
+       .reply(200, Math.round(Date.now() / 1000))
+     .intercept('/1.0/me/agreements/42', 'GET')
+       .reply(200, {});
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET,
+      consumerKey: CONSUMER_KEY
+    });
+
+    rest.requestPromised('GET', '/me/agreements/{id}', {
+      'id': 42
+    })
+    .catch(function (err) {
+      assert.ok(!err);
+    })
+    .finally(done);
   },
   'GET /me/agreements - Filtering': function (done) {
     'use strict';
@@ -181,18 +190,16 @@ exports.REST_me = {
       done();
     });
   },
-  '[Proxy] GET /list - List': function (done) {
+  'GET /me/agreements - Filtering [promised]': function (done) {
     'use strict';
 
     nock('https://eu.api.ovh.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
-     .intercept('/1.0/list', 'GET')
-       .reply(200, [42, 43])
-     .intercept('/1.0/list/42', 'GET')
-       .reply(200, { name: 42 })
-     .intercept('/1.0/list/43', 'GET')
-       .reply(200, { name: 43 });
+     .intercept('/1.0/me/agreement?agreed=ok', 'GET')
+       .reply(200, [])
+     .intercept('/1.0/me/agreement', 'GET')
+       .reply(200, [42]);
 
     var rest = ovh({
       appKey: APP_KEY,
@@ -203,29 +210,16 @@ exports.REST_me = {
       }
     });
 
-    rest.list.$get(function (err, list) {
+    rest.requestPromised('GET', '/me/agreement', {
+      'agreed': 'ok'
+    })
+    .then(function (agreements) {
+      assert.equal(agreements.length, 0);
+    })
+    .catch(function (err) {
       assert.ok(!err);
-      assert.equal(list.length, 2);
-
-      async.each(
-        list,
-        function (oid, callback) {
-          async.waterfall([
-            function (callback) {
-              this[oid].$get(callback);
-            }.bind(this),
-            function (object, callback) {
-              assert.equal(object.name, oid);
-              callback();
-            }
-          ], callback);
-        }.bind(this),
-        function (err) {
-          assert.ok(!err);
-          done();
-        }
-      );
-    });
+    })
+    .finally(done);
   },
   'PUT /me - Remove undefined': function (done) {
     'use strict';
@@ -255,6 +249,38 @@ exports.REST_me = {
       done();
     });
   },
+  'PUT /me - Remove undefined [promised]': function (done) {
+    'use strict';
+
+    nock('https://eu.api.ovh.com')
+     .intercept('/1.0/auth/time', 'GET')
+       .reply(200, Math.round(Date.now() / 1000))
+     .intercept('/1.0/me', 'PUT')
+       .reply(403, {
+         'errorCode': 'INVALID_CREDENTIAL',
+         'httpCode': '403 Forbidden',
+         'message': 'This credential is not valid'
+       });
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET,
+      consumerKey: CONSUMER_KEY
+    });
+
+    rest.requestPromised('PUT', '/me', {
+      'city': 'Roubaix Valley',
+      'firstname': undefined
+    })
+    .then(function (resp) {
+      assert.ok(!resp);
+    })
+    .catch(function (err) {
+      assert.equal(err.error, 403);
+      assert.equal(err.message, 'This credential is not valid');
+    })
+    .finally(done);
+  },
   'DELETE /todelete - 0 bytes JSON body': function (done) {
     'use strict';
 
@@ -275,6 +301,30 @@ exports.REST_me = {
       assert.equal(message, null);
       done();
     });
+  },
+  'DELETE /todelete - 0 bytes JSON body [promised]': function (done) {
+    'use strict';
+
+    nock('https://eu.api.ovh.com')
+     .intercept('/1.0/auth/time', 'GET')
+       .reply(200, Math.round(Date.now() / 1000))
+     .intercept('/1.0/todelete', 'DELETE')
+       .reply(200, '');
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET,
+      consumerKey: CONSUMER_KEY
+    });
+
+    rest.requestPromised('DELETE', '/todelete')
+      .then(function (resp) {
+        assert.equal(resp, null);
+      })
+      .catch(function (err) {
+        assert.ok(!err);
+      })
+      .finally(done);
   }
 };
 

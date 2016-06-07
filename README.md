@@ -19,6 +19,17 @@ ovh.request('GET', '/me', function (err, me) {
 });
 ```
 
+You can also use the promised version like this:
+```js
+ovh.requestPromised('GET', '/me')
+  .then(function (response) {
+    //Do what you want
+  })
+  .catch(function (err) {
+    //Return an error object like this {error: statusCode, message: message}
+  });
+```
+
 ## Installation
 
 The easiest way to get the latest stable release is to grab it from the
@@ -128,6 +139,31 @@ You can browse the API schemas using the web consoles of the APIs:
 * [SoYouStart North-America](https://ca.api.soyoustart.com/console/)
 * [Kimsufi Europe](https://eu.api.kimsufi.com/console/)
 * [Kimsufi North-America](https://ca.api.kimsufi.com/console/)
+
+## Migration from 1.x.x to 2.x.x without Proxy support
+
+For example if you use the OVH Europe API, you'll have to check on https://eu.api.ovh.com/console/ the endpoints available for your feature.
+
+In order to have the informations about the bill with id "0123".
++ Before in 1.x.x with Proxy:
+
+```javascript
+ovh.me.bill["0123"].$get(function (err, billInformation) {
+
+});
+```
+
++ Now in 2.x.x with promise:
+
+```javascript
+ovh.requestPromised('GET', '/me/bill/0123') //This route has been found at https://eu.api.ovh.com/console/
+  .then(function (billInformation) {
+
+  })
+  .catch(function (err) {
+
+  });
+```
 
 ## Full documentation and examples
 

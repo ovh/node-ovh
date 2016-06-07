@@ -46,8 +46,7 @@ exports.REST_sms = {
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/sms/foo/jobs', 'POST')
        .reply(200, function (uri, requestBody) {
-         assert.equal(requestBody, '{"message":"t\\u00e8st\\u00e9\"}');
-         assert.equal(JSON.parse(requestBody).message, 'tèsté');
+         assert.equal(requestBody.message, "tèsté");
          return {};
        });
 
@@ -56,5 +55,24 @@ exports.REST_sms = {
       assert.ok(!err);
       done();
     });
+  },
+  'POST /sms/{serviceName}/job [promised]': function (done) {
+    'use strict';
+
+    nock('https://eu.api.ovh.com')
+     .intercept('/1.0/auth/time', 'GET')
+       .reply(200, Math.round(Date.now() / 1000))
+     .intercept('/1.0/sms/foo/jobs', 'POST')
+       .reply(200, function (uri, requestBody) {
+         assert.equal(requestBody.message, "tèsté");
+         return {};
+       });
+
+    var rest = ovh(apiKeys);
+    rest.requestPromised('POST', '/sms/foo/jobs', {'message': 'tèsté'})
+      .catch(function (err) {
+        assert.ok(!err);
+      })
+      .finally(done);
   }
 };

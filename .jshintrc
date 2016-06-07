@@ -51,7 +51,7 @@
     "asi"           : false,    // Tolerate Automatic Semicolon Insertion (no semicolons).
     "boss"          : false,    // Tolerate assignments inside if, for & while. Usually conditions & loops are for comparison, not assignments.
     "debug"         : false,    // Allow debugger statements e.g. browser breakpoints.
-    "eqnull"        : false,    // Tolerate use of `== null`.
+    "eqnull"        : true,    // Tolerate use of `== null`.
     "es5"           : false,    // Allow EcmaScript 5 syntax.
     "esnext"        : true,     // Allow ES.next specific features such as `const` and `let`.
     "evil"          : false,    // Tolerate use of `eval`.
@@ -73,6 +73,7 @@
     "sub"           : false,    // Tolerate all forms of subscript notation besides dot notation e.g. `dict['key']` instead of `dict.key`.
     "supernew"      : false,    // Tolerate `new function () { ... };` and `new Object;`.
     "validthis"     : false,    // Tolerate strict violations when the code is running in strict mode and you use this in a non-constructor function.
+    "esnext"        : true,
     
     // == Environments ====================================================
     //

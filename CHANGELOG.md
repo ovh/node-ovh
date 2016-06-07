@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0
+
+* Support of node v5 and v6
+* Remove the proxy mode with harmonies
+* Add requestPromised for promise support natively
+
 ## 1.1.3
 
 * Support zero-byte JSON HTTP bodies (#2)
