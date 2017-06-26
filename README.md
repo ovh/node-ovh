@@ -183,7 +183,7 @@ to hear from you !
 
 ### Run the tests
 
-Tests are based on [mocha](http://visionmedia.github.io/mocha/).
+Tests are based on [mocha](http://mochajs.org/).
 This package includes unit and integration tests.
 
 ```
