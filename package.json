@@ -1,0 +1,24 @@
+{
+  "name": "ovh-es",
+  "version": "1.0.0",
+  "description": "ES7 Node.js wrapper for the OVH APIs",
+  "homepage": "http://github.com/131/node-ovh",
+  "author": "Francois Leurent <131.js@cloudyks.org>",
+  "license": "MIT",
+  "keywords": [
+    "OVH",
+    "RunAbove",
+    "API",
+    "REST",
+    "api.ovh.com"
+  ],
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/131/node-ovh.git"
+  },
+  "bugs": {
+    "url": "https://github.com/131/node-ovh/issues"
+  },
+  "devDependencies": {}
+}
