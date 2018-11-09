@@ -55,7 +55,7 @@ Depending the API you plan yo use, you need to create an application on the belo
 websites:
 
 * [OVH Europe](https://eu.api.ovh.com/createApp/)
-* [OVH US](https://api.ovhcloud.com/createApp/)
+* [OVH US](https://api.us.ovhcloud.com/createApp/)
 * [OVH North-America](https://ca.api.ovh.com/createApp/)
 * [RunAbove](https://api.runabove.com/createApp/)
 * [SoYouStart Europe](https://eu.api.soyoustart.com/createApp/)
@@ -135,7 +135,7 @@ You are now be able to play with the API. Look at the
 You can browse the API schemas using the web consoles of the APIs:
 
 * [OVH Europe](https://eu.api.ovh.com/console/)
-* [OVH US](https://api.ovhcloud.com/console/)
+* [OVH US](https://api.us.ovhcloud.com/console/)
 * [OVH North-America](https://ca.api.ovh.com/console/)
 * [RunAbove](https://api.runabove.com/console/)
 * [SoYouStart Europe](https://eu.api.soyoustart.com/console/)
@@ -225,10 +225,10 @@ available in the *gh-pages* branch.
 
 ### OVH US
 
-- **Documentation**: https://api.ovhcloud.com/
-- **Console**: https://api.ovhcloud.com/console/
-- **Create application credentials**: https://api.ovhcloud.com/createApp/
-- **Create script credentials** (all keys at once): https://api.ovhcloud.com/createToken/
+- **Documentation**: https://api.us.ovhcloud.com/
+- **Console**: https://api.us.ovhcloud.com/console/
+- **Create application credentials**: https://api.us.ovhcloud.com/createApp/
+- **Create script credentials** (all keys at once): https://api.us.ovhcloud.com/createToken/
 
 ### OVH North America
 
