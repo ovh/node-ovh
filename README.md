@@ -51,7 +51,7 @@ $ npm install git://github.com/ovh/node-ovh.git
 
 #### 1. Create an application
 
-Depending the API you plan yo use, you need to create an application on the below
+Depending the API you plan to use, you need to create an application on the below
 websites:
 
 * [OVH Europe](https://eu.api.ovh.com/createApp/)
