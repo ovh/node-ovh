@@ -181,8 +181,8 @@ git clone https://github.com/ovh/node-ovh.git
 cd node-ovh
 ```
 
-You've developed a new cool feature ? Fixed an annoying bug ? We'd be happy
-to hear from you !
+You've developed a new cool feature? Fixed an annoying bug? We'd be happy
+to hear from you!
 
 ### Run the tests
 
