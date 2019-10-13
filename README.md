@@ -1,9 +1,9 @@
-[![Node.js Wrapper for OVH APIs](https://ovh.github.io/node-ovh/img/logo.png)](http://ovh.github.io/node-ovh)
+[![Node.js Wrapper for OVH APIs](https://ovh.github.io/node-ovh/img/logo.png)](https://ovh.github.io/node-ovh)
 
-The easiest way to use the [OVH.com](http://ovh.com) APIs in your [node.js](http://nodejs.org/) applications.
+The easiest way to use the [OVH.com](https://ovh.com) APIs in your [node.js](https://nodejs.org/) applications.
 
 [![NPM Version](https://img.shields.io/npm/v/ovh.svg?style=flat)](https://www.npmjs.org/package/ovh)
-[![Build Status](https://img.shields.io/travis/ovh/node-ovh.svg?style=flat)](http://travis-ci.org/ovh/node-ovh)
+[![Build Status](https://img.shields.io/travis/ovh/node-ovh.svg?style=flat)](https://travis-ci.org/ovh/node-ovh)
 [![Coverage Status](https://img.shields.io/coveralls/ovh/node-ovh.svg?style=flat)](https://coveralls.io/r/ovh/node-ovh?branch=master)
 
 ```js
@@ -130,7 +130,7 @@ you'll be able to play with the API calls allowed by this key.
 #### 3. Let's play!
 
 You are now be able to play with the API. Look at the
-[examples available online](http://ovh.github.io/node-ovh#examples).
+[examples available online](https://ovh.github.io/node-ovh#examples).
 
 You can browse the API schemas using the web consoles of the APIs:
 
@@ -170,7 +170,7 @@ ovh.requestPromised('GET', '/me/bill/0123') //This route has been found at https
 
 ## Full documentation and examples
 
-The full documentation is available online: http://ovh.github.io/node-ovh.
+The full documentation is available online: https://ovh.github.io/node-ovh.
 
 ## Hacking
 
@@ -280,4 +280,4 @@ available in the *gh-pages* branch.
 
 - **Contribute**: https://github.com/ovh/node-ovh
 - **Report bugs**: https://github.com/ovh/node-ovh/issues
-- **Download**: http://npmjs.org/package/ovh
+- **Download**: https://npmjs.org/package/ovh
