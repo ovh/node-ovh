@@ -186,7 +186,7 @@ to hear from you!
 
 ### Run the tests
 
-Tests are based on [mocha](http://mochajs.org/).
+Tests are based on [mocha](https://mochajs.org/).
 This package includes unit and integration tests.
 
 ```
