@@ -1,4 +1,4 @@
-[![Node.js Wrapper for OVH APIs](http://ovh.github.io/node-ovh/img/logo.png)](http://ovh.github.io/node-ovh)
+[![Node.js Wrapper for OVH APIs](https://ovh.github.io/node-ovh/img/logo.png)](http://ovh.github.io/node-ovh)
 
 The easiest way to use the [OVH.com](http://ovh.com) APIs in your [node.js](http://nodejs.org/) applications.
 
