@@ -57,7 +57,6 @@ websites:
 * [OVH Europe](https://eu.api.ovh.com/createApp/)
 * [OVH US](https://api.us.ovhcloud.com/createApp/)
 * [OVH North-America](https://ca.api.ovh.com/createApp/)
-* [RunAbove](https://api.runabove.com/createApp/)
 * [SoYouStart Europe](https://eu.api.soyoustart.com/createApp/)
 * [SoYouStart North-America](https://ca.api.soyoustart.com/createApp/)
 * [Kimsufi Europe](https://eu.api.kimsufi.com/createApp/)
@@ -79,7 +78,6 @@ Depending the API you want to use, you need to specify the below API endpoint:
 * OVH Europe: ```ovh-eu``` (default)
 * OVH US: ```ovh-us```
 * OVH North-America: ```ovh-ca```
-* RunAbove: ```runabove-ca```
 * SoYouStart Europe: ```soyoustart-eu```
 * SoYouStart North-America: ```soyoustart-ca```
 * Kimsufi Europe: ```kimsufi-eu```
@@ -137,7 +135,6 @@ You can browse the API schemas using the web consoles of the APIs:
 * [OVH Europe](https://eu.api.ovh.com/console/)
 * [OVH US](https://api.us.ovhcloud.com/console/)
 * [OVH North-America](https://ca.api.ovh.com/console/)
-* [RunAbove](https://api.runabove.com/console/)
 * [SoYouStart Europe](https://eu.api.soyoustart.com/console/)
 * [SoYouStart North-America](https://ca.api.soyoustart.com/console/)
 * [Kimsufi Europe](https://eu.api.kimsufi.com/console/)
@@ -237,12 +234,6 @@ available in the *gh-pages* branch.
 - **Console**: https://ca.api.ovh.com/console
 - **Create application credentials**: https://ca.api.ovh.com/createApp/
 - **Create script credentials** (all keys at once): https://ca.api.ovh.com/createToken/
-
-### Runabove
-
-- **Console**: https://api.runabove.com/console/
-- **Create application credentials**: https://api.runabove.com/createApp/
-
 
 ### SoYouStart Europe
 
