@@ -1,5 +1,28 @@
 # Changelog
 
+## 2.0.3
+
+* [#19](https://github.com/ovh/node-ovh/pull/19) - docs(README): Update Mocha link
+* [#34](https://github.com/ovh/node-ovh/pull/34) - docs(README): fix typo
+* [#36](https://github.com/ovh/node-ovh/pull/36) - ci(travis): require Node.js 8
+* [#35](https://github.com/ovh/node-ovh/pull/35) - docs(https): Fix Mixed Content Warnings
+* [#37](https://github.com/ovh/node-ovh/pull/37) - fix(endpoint): remove non-reachable runabove endpoint
+
+## 2.0.2
+
+* [#15](https://github.com/ovh/node-ovh/pull/15) - fix(ovh): disable deletion of 0 or empty string params
+* [#24](https://github.com/ovh/node-ovh/pull/24) - Add US API
+* [#24](https://github.com/ovh/node-ovh/pull/24) - Remove comma to match every other api endpoint
+* [#27](https://github.com/ovh/node-ovh/pull/27) - chore(travis): Drop support for node < 4 (Not maintained anymore)
+* [#29](https://github.com/ovh/node-ovh/pull/29) - feat(api): change OVH US API endpoint
+* chore(travis): drop support < 6 ([1656444](https://github.com/ovh/node-ovh/tree/1656444d0ff3d7485d11aa617b50bc5bb5bc279b))
+* chore(es5): recompile ([1c68edb](https://github.com/ovh/node-ovh/tree/1c68edb7682d85719fd118ebff2ff4ce50e2c0f3))
+
+## 2.0.1
+
+* [#10](https://github.com/ovh/node-ovh/pull/10) - Upgrade node version, delete proxy support (deprecated), add promise support
+* [#15](https://github.com/ovh/node-ovh/pull/15) - fix(ovh): disable deletion of 0 or empty string params
+
 ## 2.0.0
 
 * Support of node v5 and v6
