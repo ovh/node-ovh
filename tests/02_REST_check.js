@@ -474,5 +474,43 @@ exports.REST_check = {
         assert.equal(err.error, '[OVH] Unable to fetch OVH API time');
       })
       .finally(done);
-  }
+  },
+  'Fetch v1 endpoint': function (done) {
+    'use strict';
+    nock('https://ca.api.ovh.com')
+      .intercept('/v1/call', 'GET')
+        .reply(200, {});
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET,
+      endpoint: 'ovh-ca'
+    });
+
+    assert.equal(rest.basePath, '/1.0');
+    rest.requestPromised('GET', '/v1/call')
+        .then(function (resp) {
+          assert.ok(!resp);
+        })
+        .finally(done);
+  },
+  'Fetch v2 endpoint': function (done) {
+    'use strict';
+    nock('https://ca.api.ovh.com')
+      .intercept('/v2/call', 'GET')
+        .reply(200, {});
+
+    var rest = ovh({
+      appKey: APP_KEY,
+      appSecret: APP_SECRET,
+      endpoint: 'ovh-ca'
+    });
+
+    assert.equal(rest.basePath, '/1.0');
+    rest.requestPromised('GET', '/v2/call')
+        .then(function (resp) {
+          assert.ok(!resp);
+        })
+        .finally(done);
+  },
 };
