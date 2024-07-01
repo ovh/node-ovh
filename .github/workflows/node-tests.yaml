@@ -1,0 +1,26 @@
+name: NodeJS Test
+
+on: [push, pull_request]
+
+jobs:
+  test: 
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        node-version: [18, 20, 22]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Restore/create node_modules cache
+        uses: actions/cache@v4
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install
+        run: npm install
+      - name: Test
+        run: npm run test
