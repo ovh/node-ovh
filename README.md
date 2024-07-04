@@ -1,6 +1,6 @@
-[![Node.js Wrapper for OVH APIs](https://ovh.github.io/node-ovh/img/logo.png)](https://ovh.github.io/node-ovh)
+[![Node.js Wrapper for OVHcloud APIs](https://ovh.github.io/node-ovh/img/logo.png)](https://ovh.github.io/node-ovh)
 
-The easiest way to use the [OVH.com](https://ovh.com) APIs in your [node.js](https://nodejs.org/) applications.
+The easiest way to use the [OVHcloud.com](https://www.ovhcloud.com) APIs in your [node.js](https://nodejs.org/) applications.
 
 [![NPM Version](https://img.shields.io/npm/v/ovh.svg?style=flat)](https://www.npmjs.org/package/ovh)
 [![Build Status](https://img.shields.io/travis/ovh/node-ovh.svg?style=flat)](https://travis-ci.org/ovh/node-ovh)
@@ -47,16 +47,38 @@ $ npm install git://github.com/ovh/node-ovh.git
 
 ## Example Usage
 
-### Login as a user
+### OAuth2
+
+#### 1. Generate credentials
+
+Generate a valid pair of clientID/clientSecret following this [documentation](https://help.ovhcloud.com/csm/en-manage-service-account?id=kb_article_view&sysparm_article=KB0059343)
+
+#### 2. Create an OVHcloud API client 
+
+```js
+var ovh = require('ovh')({
+  clientID: 'YOUR_CLIENT_ID'
+  clientSecret: 'YOUR_CLIENT_SECRET'
+  endpoint: 'ovh-eu',
+});
+```
+
+Depending on the API you want to use, you may set the endpoint to:
+* `ovh-eu` for OVHcloud Europe API
+* `ovh-us` for OVHcloud US API
+* `ovh-ca` for OVHcloud Canada API
+
+
+### Application Key/ApplicationSecret
 
 #### 1. Create an application
 
 Depending the API you plan to use, you need to create an application on the below
 websites:
 
-* [OVH Europe](https://eu.api.ovh.com/createApp/)
-* [OVH US](https://api.us.ovhcloud.com/createApp/)
-* [OVH North-America](https://ca.api.ovh.com/createApp/)
+* [OVHcloud Europe](https://eu.api.ovh.com/createApp/)
+* [OVHcloud US](https://api.us.ovhcloud.com/createApp/)
+* [OVHcloud North-America](https://ca.api.ovh.com/createApp/)
 * [SoYouStart Europe](https://eu.api.soyoustart.com/createApp/)
 * [SoYouStart North-America](https://ca.api.soyoustart.com/createApp/)
 * [Kimsufi Europe](https://eu.api.kimsufi.com/createApp/)
@@ -67,7 +89,7 @@ secret (AS)**.
 
 #### 2. Authorize your application to access to a customer account
 
-To allow your application to access to a customer account using an OVH API,
+To allow your application to access to a customer account using an OVHcloud API,
 you need a **consumer key (CK)**.
 
 Here is a sample code you can use to allow your application to access to a
@@ -75,9 +97,9 @@ complete account.
 
 Depending the API you want to use, you need to specify the below API endpoint:
 
-* OVH Europe: ```ovh-eu``` (default)
-* OVH US: ```ovh-us```
-* OVH North-America: ```ovh-ca```
+* OVHcloud Europe: ```ovh-eu``` (default)
+* OVHcloud US: ```ovh-us```
+* OVHcloud North-America: ```ovh-ca```
 * SoYouStart Europe: ```soyoustart-eu```
 * SoYouStart North-America: ```soyoustart-ca```
 * Kimsufi Europe: ```kimsufi-eu```
@@ -132,9 +154,9 @@ You are now be able to play with the API. Look at the
 
 You can browse the API schemas using the web consoles of the APIs:
 
-* [OVH Europe](https://eu.api.ovh.com/console/)
-* [OVH US](https://api.us.ovhcloud.com/console/)
-* [OVH North-America](https://ca.api.ovh.com/console/)
+* [OVHcloud Europe](https://eu.api.ovh.com/console/)
+* [OVHcloud US](https://api.us.ovhcloud.com/console/)
+* [OVHcloud North-America](https://ca.api.ovh.com/console/)
 * [SoYouStart Europe](https://eu.api.soyoustart.com/console/)
 * [SoYouStart North-America](https://ca.api.soyoustart.com/console/)
 * [Kimsufi Europe](https://eu.api.kimsufi.com/console/)
@@ -142,7 +164,7 @@ You can browse the API schemas using the web consoles of the APIs:
 
 ## Migration from 1.x.x to 2.x.x without Proxy support
 
-For example if you use the OVH Europe API, you'll have to check on https://eu.api.ovh.com/console/ the endpoints available for your feature.
+For example if you use the OVHcloud Europe API, you'll have to check on https://eu.api.ovh.com/console/ the endpoints available for your feature.
 
 In order to have the informations about the bill with id "0123".
 + Before in 1.x.x with Proxy:
@@ -193,7 +215,7 @@ npm install -d
 npm test
 ```
 
-Integration tests use the OVH /domain/zone API, the tokens can be created
+Integration tests use the OVHcloud /domain/zone API, the tokens can be created
 [here](https://api.ovh.com/createToken/).
 
 ```
@@ -212,7 +234,7 @@ available in the *gh-pages* branch.
 
 ## Supported APIs
 
-### OVH Europe
+### OVHcloud Europe
 
 - **Documentation**: https://eu.api.ovh.com/
 - **Community support**: api-subscribe@ml.ovh.net
@@ -220,14 +242,14 @@ available in the *gh-pages* branch.
 - **Create application credentials**: https://eu.api.ovh.com/createApp/
 - **Create script credentials** (all keys at once): https://eu.api.ovh.com/createToken/
 
-### OVH US
+### OVHcloud US
 
 - **Documentation**: https://api.us.ovhcloud.com/
 - **Console**: https://api.us.ovhcloud.com/console/
 - **Create application credentials**: https://api.us.ovhcloud.com/createApp/
 - **Create script credentials** (all keys at once): https://api.us.ovhcloud.com/createToken/
 
-### OVH North America
+### OVHcloud North America
 
 - **Documentation**: https://ca.api.ovh.com/
 - **Community support**: api-subscribe@ml.ovh.net

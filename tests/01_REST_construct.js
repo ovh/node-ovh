@@ -30,27 +30,48 @@ var ovh = require('..'),
     nock = require('nock');
 
 exports.REST_construct = {
-  'Constructor with a REST without app key / secret': function () {
+  'Instantiate without or with too many authentication method': function () {
     "use strict";
 
     assert.throws(
-      function () { ovh(); },
-      /\[OVH\] You should precise an application key \/ secret/
+      function () { ovh({ endpoint: 'ovh-eu' }); },
+      /\[OVH\] Missing authentication. You must provide applicationKey\/applicationSecret or OAuth2 clientID\/clientSecret/
     );
 
     assert.throws(
-      function () { ovh({}); },
-      /\[OVH\] You should precise an application key \/ secret/
+      function () { ovh({ appKey: 'XXX', appSecret: 'XXX', clientID: 'XXX', clientSecret: 'XXX', endpoint: 'ovh-eu'}); },
+      /\[OVH\] Cannot use both applicationKey\/applicationSecret and OAuth2/
     );
+  },
+  'Instantiate with OAuth2': function () {
+    "use strict";
+
+    assert.throws(
+      function () { ovh({ clientID: 'XXX', endpoint: 'ovh-eu'}); },
+      /\[OVH\] Both clientID and clientSecret must be given/
+    );
+
+    assert.throws(
+      function () { ovh({ clientSecret: 'XXX', endpoint: 'ovh-eu'}); },
+      /\[OVH\] Both clientID and clientSecret must be given/
+    );
+
+    assert.throws(
+      function () { ovh({ clientID: 'XXX', clientSecret: 'XXX', endpoint: 'sys-eu'}); },
+      /\[OVH\] Endpoint does not support OAuth2 authentication/
+    );
+  },
+  'Instantiate with appKey': function () {
+    "use strict";
 
     assert.throws(
       function () { ovh({ appKey: 'XXX' }); },
-      /\[OVH\] You should precise an application key \/ secret/
+      /\[OVH\] Both application key and application secret must be given/
     );
 
     assert.throws(
       function () { ovh({ appSecret: 'XXX' }); },
-      /\[OVH\] You should precise an application key \/ secret/
+      /\[OVH\] Both application key and application secret must be given/
     );
   },
   'Constructor with specified hosts or basepaths': function () {
