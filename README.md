@@ -33,10 +33,10 @@ ovh.requestPromised('GET', '/me')
 ## Installation
 
 The easiest way to get the latest stable release is to grab it from the
-[npm registry](https://npmjs.org/package/ovh).
+[npm registry](https://npmjs.org/package/@ovhcloud/node-ovh).
 
 ```bash
-$ npm install ovh
+$ npm install @ovhcloud/node-ovh
 ```
 
 Alternatively, you may get latest development version directly from Git.
