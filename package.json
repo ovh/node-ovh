@@ -1,9 +1,9 @@
 {
-  "name": "ovh",
+  "name": "@ovhcloud/node-ovh",
   "version": "2.0.3",
   "description": "Official Node.js wrapper for the OVH APIs",
   "homepage": "http://ovh.github.io/node-ovh",
-  "author": "Vincent Giersch <vincent.giersch@ovh.net>",
+  "author": "OVH SAS",
   "license": "MIT",
   "keywords": [
     "OVH",
@@ -28,17 +28,19 @@
     "@babel/cli": "^7.24.7",
     "@babel/core": "^7.24.7",
     "@babel/preset-env": "^7.24.7",
+    "commit-and-tag-version": "^12.4.1",
     "istanbul": "latest",
     "jshint": "latest",
     "mocha": "latest",
     "nock": "latest"
   },
   "scripts": {
+    "compile": "npx babel --presets @babel/preset-env lib/ovh.js --out-file lib/ovh.es5.js",
+    "compile:watch": "npx babel -w --presets @babel/preset-env lib/ovh.js --out-file lib/ovh.es5.js",
+    "release": "commit-and-tag-version",
     "test": "node_modules/.bin/jshint lib/endpoints.js lib/ovh.js tests && npm run-script test-cov && npm run-script test-without-proxies",
     "test-without-proxies": "node node_modules/.bin/mocha -g Proxy -i --reporter spec --ui exports tests/*.js",
     "test-cov": "node ./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --reporter spec --ui exports --check-leaks tests/*.js",
-    "test-integration": "node node_modules/mocha/bin/_mocha tests/integration/*.js && node node_modules/.bin/mocha -g Proxy -i --reporter spec --ui exports tests/integration/*.js",
-    "compile": "npx babel --presets @babel/preset-env lib/ovh.js --out-file lib/ovh.es5.js",
-    "compile:watch": "npx babel -w --presets @babel/preset-env lib/ovh.js --out-file lib/ovh.es5.js"
+    "test-integration": "node node_modules/mocha/bin/_mocha tests/integration/*.js && node node_modules/.bin/mocha -g Proxy -i --reporter spec --ui exports tests/integration/*.js"
   }
 }
