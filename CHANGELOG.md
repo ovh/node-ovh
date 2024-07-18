@@ -1,5 +1,26 @@
 # Changelog
 
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [3.0.0](https://github.com/ovh/node-ovh/compare/v2.0.3...v3.0.0) (2024-07-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* package name is now @ovhcloud/node-ovh
+
+Signed-off-by: Marie JONES <14836007+marie-j@users.noreply.github.com>
+
+### build
+
+* update release process ([efd8fcd](https://github.com/ovh/node-ovh/commit/efd8fcdd1607b92400bb1098996a413a35d7cdaa))
+
+
+### Features
+
+* add oauth2 authentication method ([880852b](https://github.com/ovh/node-ovh/commit/880852b48f402ef6f8ca9ebf575a92fc079beb67))
+* allow /v1 or /v2 prefixes in path ([380d1ac](https://github.com/ovh/node-ovh/commit/380d1ac1a68654cbfb3450a01497c59bc4c0885d))
+
 ## 2.0.3
 
 * [#19](https://github.com/ovh/node-ovh/pull/19) - docs(README): Update Mocha link
