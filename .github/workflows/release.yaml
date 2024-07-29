@@ -1,0 +1,42 @@
+name: Release
+
+on: 
+  push:
+    branches: 
+    - master
+
+jobs:
+  release: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Restore/create node_modules cache
+        uses: actions/cache@v4
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install
+        run: npm install
+      - name: Tag
+        run: |
+          git config user.name "GitHub action"
+          git config user.email "action@users.noreply.github.com"
+          npm run release
+          git push --follow-tags origin master
+      - name: version
+        run: echo "::set-output name=version::$(node -e "console.log(require('./package.json').version);")"
+        id: version
+      - name: release
+        uses: actions/create-release@v1
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ steps.version.outputs.version }}
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

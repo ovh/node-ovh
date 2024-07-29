@@ -11,6 +11,9 @@
     "REST",
     "api.ovh.com"
   ],
+  "files": [
+    "lib"
+  ],
   "main": "./lib/ovh.es5.js",
   "repository": {
     "type": "git",
