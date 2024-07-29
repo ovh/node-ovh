@@ -1,6 +1,6 @@
 {
   "name": "@ovhcloud/node-ovh",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Official Node.js wrapper for the OVH APIs",
   "homepage": "http://ovh.github.io/node-ovh",
   "author": "OVH SAS",
