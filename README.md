@@ -8,7 +8,7 @@ The easiest way to use the [OVHcloud.com](https://www.ovhcloud.com) APIs in your
 
 ```js
 // Create your first application tokens here: https://api.ovh.com/createToken/?GET=/me
-var ovh = require('ovh')({
+var ovh = require('@ovhcloud/node-ovh')({
   appKey: process.env.APP_KEY,
   appSecret: process.env.APP_SECRET,
   consumerKey: process.env.CONSUMER_KEY
@@ -56,7 +56,7 @@ Generate a valid pair of clientID/clientSecret following this [documentation](ht
 #### 2. Create an OVHcloud API client 
 
 ```js
-var ovh = require('ovh')({
+var ovh = require('@ovhcloud/node-ovh')({
   clientID: 'YOUR_CLIENT_ID'
   clientSecret: 'YOUR_CLIENT_SECRET'
   endpoint: 'ovh-eu',
@@ -106,7 +106,7 @@ Depending the API you want to use, you need to specify the below API endpoint:
 * Kimsufi North-America: ```kimsufi-ca```
 
 ```js
-var ovh = require('ovh')({
+var ovh = require('@ovhcloud/node-ovh')({
   endpoint: 'ovh-eu',
   appKey: 'YOUR_APP_KEY',
   appSecret: 'YOUR_APP_SECRET'
