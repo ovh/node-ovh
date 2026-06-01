@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 - 2025 OVH SAS
+ * Copyright (c) 2014 - 2026 OVH SAS
  * Copyright (c) 2012 - 2013 Vincent Giersch
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,7 +31,7 @@ var fs = require('fs'),
     async = require('async');
 
 // To create a test token
-// https://eu.api.ovh.com/createToken/
+// https://auth.eu.ovhcloud.com/api/createToken/
 if (!process.env.APP_KEY || !process.env.APP_SECRET ||
     !process.env.CONSUMER_KEY || !process.env.DOMAIN_ZONE_NAME) {
   console.warn('These tests require APP_KEY, APP_SECRET, CONSUMER_KEY and ');

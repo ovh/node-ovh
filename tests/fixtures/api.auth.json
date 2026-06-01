@@ -134,5 +134,5 @@
          "description" : "Operations with credentials"
       }
    ],
-   "basePath" : "https://api.ovh.com/1.0"
+   "basePath" : "https://api.eu.ovhcloud.com/1.0"
 }

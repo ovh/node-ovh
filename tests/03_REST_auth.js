@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 - 2025 OVH SAS
+ * Copyright (c) 2014 - 2026 OVH SAS
  * Copyright (c) 2012 - 2013 Vincent Giersch
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -38,7 +38,7 @@ exports.REST_call = {
   'GET /auth/time - ovh.request()': function (done) {
     "use strict";
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000));
 
@@ -55,7 +55,7 @@ exports.REST_call = {
   'GET /auth/time [promised] - ovh.request()': function (done) {
     "use strict";
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000));
 
@@ -76,12 +76,12 @@ exports.REST_call = {
   'GET /auth/credential - ovh.request()': function (done) {
     "use strict";
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/auth/credential', 'POST')
        .reply(200, {
-         'validationUrl': 'http://eu.api.ovh.com',
+         'validationUrl': 'http://api.eu.ovhcloud.com',
          'consumerKey': '84',
          'state': 'pendingValidation'
        });
@@ -107,12 +107,12 @@ exports.REST_call = {
   'GET /auth/credential [promised] - ovh.request()': function (done) {
     "use strict";
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/auth/credential', 'POST')
        .reply(200, {
-         'validationUrl': 'http://eu.api.ovh.com',
+         'validationUrl': 'http://api.eu.ovhcloud.com',
          'consumerKey': '84',
          'state': 'pendingValidation'
        });

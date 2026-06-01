@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 - 2025 OVH SAS
+ * Copyright (c) 2014 - 2026 OVH SAS
  * Copyright (c) 2012 - 2013 Vincent Giersch
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -52,7 +52,7 @@ exports.REST_check = {
   'Check Deprecated warning': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/deprecated/my-service/route', 'GET')
@@ -79,7 +79,7 @@ exports.REST_check = {
   'Check Deprecated warning [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/deprecated/my-service/route', 'GET')
@@ -110,7 +110,7 @@ exports.REST_check = {
   'Check call not found warning': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/auth/not-found', 'GET')
@@ -135,7 +135,7 @@ exports.REST_check = {
   'Check call not found warning [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/auth/not-found', 'GET')
@@ -164,7 +164,7 @@ exports.REST_check = {
   'Check api not found warning': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/auth', 'GET')
@@ -192,7 +192,7 @@ exports.REST_check = {
   'Check api not found warning [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/auth', 'GET')
@@ -224,7 +224,7 @@ exports.REST_check = {
   'Check HTTP method not found warning': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/auth.json', 'GET')
@@ -251,7 +251,7 @@ exports.REST_check = {
   'Check HTTP method not found warning [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/auth.json', 'GET')
@@ -282,7 +282,7 @@ exports.REST_check = {
   'Call method without CK': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/auth.json', 'GET')
@@ -309,7 +309,7 @@ exports.REST_check = {
   'Call method without CK [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/auth.json', 'GET')
@@ -340,7 +340,7 @@ exports.REST_check = {
   'Unable to load schema': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/auth.json', 'GET')
@@ -362,7 +362,7 @@ exports.REST_check = {
   'Unable to load schema [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/auth.json', 'GET')
@@ -388,7 +388,7 @@ exports.REST_check = {
   'Unable to parse schema': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/auth.json', 'GET')
@@ -410,7 +410,7 @@ exports.REST_check = {
   'Unable to parse schema [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(200, Math.round(Date.now() / 1000))
       .intercept('/1.0/auth.json', 'GET')
@@ -435,7 +435,7 @@ exports.REST_check = {
   },
   'Unable to fetch time': function (done) {
     'use strict';
-    nock('https://ca.api.ovh.com')
+    nock('https://api.ca.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(500)
       .intercept('/1.0/auth.json', 'GET')
@@ -454,7 +454,7 @@ exports.REST_check = {
   },
   'Unable to fetch time [promised]': function (done) {
     'use strict';
-    nock('https://ca.api.ovh.com')
+    nock('https://api.ca.ovhcloud.com')
       .intercept('/1.0/auth/time', 'GET')
         .reply(500)
       .intercept('/1.0/auth.json', 'GET')
@@ -477,7 +477,7 @@ exports.REST_check = {
   },
   'Fetch v1 endpoint': function (done) {
     'use strict';
-    nock('https://ca.api.ovh.com')
+    nock('https://api.ca.ovhcloud.com')
       .intercept('/v1/call', 'GET')
         .reply(200, {});
 
@@ -496,7 +496,7 @@ exports.REST_check = {
   },
   'Fetch v2 endpoint': function (done) {
     'use strict';
-    nock('https://ca.api.ovh.com')
+    nock('https://api.ca.ovhcloud.com')
       .intercept('/v2/call', 'GET')
         .reply(200, {});
 

@@ -139,7 +139,7 @@ Signed-off-by: Marie JONES <14836007+marie-j@users.noreply.github.com>
 
 ## 0.3.0
 
-* Major update, first version supporting OVH REST API (https://api.ovh.com).
+* Major update, first version supporting OVH REST API (https://api.eu.ovhcloud.com).
 
 ## 0.2.0
 

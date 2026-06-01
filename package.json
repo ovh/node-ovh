@@ -9,7 +9,7 @@
     "OVH",
     "API",
     "REST",
-    "api.ovh.com"
+    "api.eu.ovhcloud.com"
   ],
   "files": [
     "lib"

@@ -20,5 +20,5 @@
          "description" : "Get the time of OVH servers"
       }
    ],
-   "basePath" : "https://api.ovh.com/1.0"
+   "basePath" : "https://api.eu.ovhcloud.com/1.0"
 }
