@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 - 2025 OVH SAS
+ * Copyright (c) 2014 - 2026 OVH SAS
  * Copyright (c) 2012 - 2013 Vincent Giersch
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -47,7 +47,7 @@ exports.REST_oauth2 = {
           'expires_in': 3599,
           'scope': 'all'
        });
-    nock('https://eu.api.ovh.com', {
+    nock('https://api.eu.ovhcloud.com', {
       reqheaders: {
         authorization: 'Bearer ok',
       },
@@ -73,7 +73,7 @@ exports.REST_oauth2 = {
           'expires_in': 3599,
           'scope': 'all'
        });
-    nock('https://eu.api.ovh.com', {
+    nock('https://api.eu.ovhcloud.com', {
       reqheaders: {
         authorization: 'Bearer ok',
       },
@@ -123,7 +123,7 @@ exports.REST_oauth2 = {
       'expires_in': 10,
       'scope': 'all'
       });
-    nock('https://eu.api.ovh.com', {
+    nock('https://api.eu.ovhcloud.com', {
       reqheaders: {
         authorization: 'Bearer token1',
       },
@@ -138,7 +138,7 @@ exports.REST_oauth2 = {
       'expires_in': 10,
       'scope': 'all'
     });
-    nock('https://eu.api.ovh.com', {
+    nock('https://api.eu.ovhcloud.com', {
       reqheaders: {
         authorization: 'Bearer token2',
       },

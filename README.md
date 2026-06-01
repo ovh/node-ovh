@@ -7,7 +7,7 @@ The easiest way to use the [OVHcloud.com](https://www.ovhcloud.com) APIs in your
 [![Coverage Status](https://img.shields.io/coveralls/ovh/node-ovh.svg?style=flat)](https://coveralls.io/r/ovh/node-ovh?branch=master)
 
 ```js
-// Create your first application tokens here: https://api.ovh.com/createToken/?GET=/me
+// Create your first application tokens here: https://auth.eu.ovhcloud.com/api/createToken/?GET=/me
 var ovh = require('@ovhcloud/node-ovh')({
   appKey: process.env.APP_KEY,
   appSecret: process.env.APP_SECRET,
@@ -76,9 +76,9 @@ Depending on the API you want to use, you may set the endpoint to:
 Depending the API you plan to use, you need to create an application on the below
 websites:
 
-* [OVHcloud Europe](https://eu.api.ovh.com/createApp/)
+* [OVHcloud Europe](https://auth.eu.ovhcloud.com/api/createApp/)
 * [OVHcloud US](https://api.us.ovhcloud.com/createApp/)
-* [OVHcloud North-America](https://ca.api.ovh.com/createApp/)
+* [OVHcloud North-America](https://auth.ca.ovhcloud.com/api/createApp/)
 * [SoYouStart Europe](https://eu.api.soyoustart.com/createApp/)
 * [SoYouStart North-America](https://ca.api.soyoustart.com/createApp/)
 * [Kimsufi Europe](https://eu.api.kimsufi.com/createApp/)
@@ -126,7 +126,7 @@ ovh.request('POST', '/auth/credential', {
 
 ```bash
 $ node credentials.js
-{ validationUrl: 'https://api.ovh.com/auth/?credentialToken=XXX',
+{ validationUrl: 'https://api.eu.ovhcloud.com/auth/?credentialToken=XXX',
   consumerKey: 'CK',
   state: 'pendingValidation' }
 ```
@@ -154,9 +154,9 @@ You are now be able to play with the API. Look at the
 
 You can browse the API schemas using the web consoles of the APIs:
 
-* [OVHcloud Europe](https://eu.api.ovh.com/console/)
+* [OVHcloud Europe](https://api.eu.ovhcloud.com/console/)
 * [OVHcloud US](https://api.us.ovhcloud.com/console/)
-* [OVHcloud North-America](https://ca.api.ovh.com/console/)
+* [OVHcloud North-America](https://api.ca.ovhcloud.com/console/)
 * [SoYouStart Europe](https://eu.api.soyoustart.com/console/)
 * [SoYouStart North-America](https://ca.api.soyoustart.com/console/)
 * [Kimsufi Europe](https://eu.api.kimsufi.com/console/)
@@ -164,7 +164,7 @@ You can browse the API schemas using the web consoles of the APIs:
 
 ## Migration from 1.x.x to 2.x.x without Proxy support
 
-For example if you use the OVHcloud Europe API, you'll have to check on https://eu.api.ovh.com/console/ the endpoints available for your feature.
+For example if you use the OVHcloud Europe API, you'll have to check on https://api.eu.ovhcloud.com/console/ the endpoints available for your feature.
 
 In order to have the informations about the bill with id "0123".
 + Before in 1.x.x with Proxy:
@@ -178,7 +178,7 @@ ovh.me.bill["0123"].$get(function (err, billInformation) {
 + Now in 2.x.x with promise:
 
 ```javascript
-ovh.requestPromised('GET', '/me/bill/0123') //This route has been found at https://eu.api.ovh.com/console/
+ovh.requestPromised('GET', '/me/bill/0123') //This route has been found at https://api.eu.ovhcloud.com/console/
   .then(function (billInformation) {
 
   })
@@ -216,7 +216,7 @@ npm test
 ```
 
 Integration tests use the OVHcloud /domain/zone API, the tokens can be created
-[here](https://api.ovh.com/createToken/).
+[here](https://auth.eu.ovhcloud.com/api/createToken/).
 
 ```
 export APP_KEY=xxxxx
@@ -236,11 +236,11 @@ available in the *gh-pages* branch.
 
 ### OVHcloud Europe
 
-- **Documentation**: https://eu.api.ovh.com/
+- **Documentation**: https://api.eu.ovhcloud.com/
 - **Community support**: api-subscribe@ml.ovh.net
-- **Console**: https://eu.api.ovh.com/console
-- **Create application credentials**: https://eu.api.ovh.com/createApp/
-- **Create script credentials** (all keys at once): https://eu.api.ovh.com/createToken/
+- **Console**: https://api.eu.ovhcloud.com/console
+- **Create application credentials**: https://auth.eu.ovhcloud.com/api/createApp/
+- **Create script credentials** (all keys at once): https://auth.eu.ovhcloud.com/api/createToken/
 
 ### OVHcloud US
 
@@ -251,11 +251,11 @@ available in the *gh-pages* branch.
 
 ### OVHcloud North America
 
-- **Documentation**: https://ca.api.ovh.com/
+- **Documentation**: https://api.ca.ovhcloud.com/
 - **Community support**: api-subscribe@ml.ovh.net
-- **Console**: https://ca.api.ovh.com/console
-- **Create application credentials**: https://ca.api.ovh.com/createApp/
-- **Create script credentials** (all keys at once): https://ca.api.ovh.com/createToken/
+- **Console**: https://api.ca.ovhcloud.com/console
+- **Create application credentials**: https://auth.ca.ovhcloud.com/api/createApp/
+- **Create script credentials** (all keys at once): https://auth.ca.ovhcloud.com/api/createToken/
 
 ### SoYouStart Europe
 

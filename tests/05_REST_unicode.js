@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 - 2025 OVH SAS
+ * Copyright (c) 2014 - 2026 OVH SAS
  * Copyright (c) 2012 - 2013 Vincent Giersch
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -41,7 +41,7 @@ exports.REST_sms = {
   'POST /sms/{serviceName}/job': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/sms/foo/jobs', 'POST')
@@ -59,7 +59,7 @@ exports.REST_sms = {
   'POST /sms/{serviceName}/job [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/sms/foo/jobs', 'POST')

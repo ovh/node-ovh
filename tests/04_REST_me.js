@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014 - 2025 OVH SAS
+ * Copyright (c) 2014 - 2026 OVH SAS
  * Copyright (c) 2012 - 2013 Vincent Giersch
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -40,7 +40,7 @@ exports.REST_me = {
   'PUT /me - ovh.request()': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/me', 'PUT')
@@ -64,7 +64,7 @@ exports.REST_me = {
   'PUT /me - ovh.request() [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/me', 'PUT')
@@ -89,7 +89,7 @@ exports.REST_me = {
   'PUT /me - ovh.request() - 403 [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/me', 'PUT')
@@ -120,7 +120,7 @@ exports.REST_me = {
   'GET /me/aggreements/{id} - Variable replacement': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/me/agreements/42', 'GET')
@@ -142,7 +142,7 @@ exports.REST_me = {
   'GET /me/aggreements/{id} - Variable replacement [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/me/agreements/42', 'GET')
@@ -165,7 +165,7 @@ exports.REST_me = {
   'GET /me/agreements - Filtering': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/me/agreement?agreed=ok', 'GET')
@@ -193,7 +193,7 @@ exports.REST_me = {
   'GET /me/agreements - Filtering [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/me/agreement?agreed=ok', 'GET')
@@ -224,7 +224,7 @@ exports.REST_me = {
   'PUT /me - Remove undefined': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/me', 'PUT')
@@ -252,7 +252,7 @@ exports.REST_me = {
   'PUT /me - Remove undefined [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/me', 'PUT')
@@ -284,7 +284,7 @@ exports.REST_me = {
   'DELETE /todelete - 0 bytes JSON body': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/todelete', 'DELETE')
@@ -305,7 +305,7 @@ exports.REST_me = {
   'DELETE /todelete - 0 bytes JSON body [promised]': function (done) {
     'use strict';
 
-    nock('https://eu.api.ovh.com')
+    nock('https://api.eu.ovhcloud.com')
      .intercept('/1.0/auth/time', 'GET')
        .reply(200, Math.round(Date.now() / 1000))
      .intercept('/1.0/todelete', 'DELETE')
